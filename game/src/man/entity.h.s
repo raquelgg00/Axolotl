@@ -1,6 +1,8 @@
 .globl entity_create
 .globl entity_copy
 
+.globl entity_vector
+
 
 ; Constantes
 e_x             = 0

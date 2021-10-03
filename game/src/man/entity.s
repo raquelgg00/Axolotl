@@ -48,12 +48,17 @@ ret
 
 ;; ===============================
 ;; COPIA UNA ENTIDAD
-;; Input: HL -> Entidad Origen
-;;        DE -> Entidad Destino
+;; Input: HL -> Entidad Origen (tmp)
+;;        DE -> Entidad Destino (entidad creada)
+;;
+;; Output: HL -->Entidad Creada
 ;; ===============================
 entity_copy:
 
     ld bc, #k_size_entity
     ldir    ;; copy from HL to DE, bc bytes
+    
+    ex de, hl       ;; HL -> Siguiente Entidad
+    sbc hl, bc      ;; HL = HL - EntidadSize (Entidad Nueva)
     
 ret
