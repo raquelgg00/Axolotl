@@ -98,12 +98,5 @@ entity_doForAll:
     noEntities:
 ret
 
-entity_moveRight:
-    ld e_vx(ix), #1
-ret
 
-entity_moveLeft:
-    ld e_vx(ix), #-1
-ret
-
-;; init, destroy, set4destruction, update, freespace
+;; init, destroy, set4destruction, update, freespace, entity_doForAll_matching

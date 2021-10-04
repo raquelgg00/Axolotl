@@ -87,6 +87,7 @@ ret
 ;; Output:
 ;; ===============================
 physics_update:
+    ;; COMPROBAR SIGNATURE CON entity_doForAll_matching
     ld hl, #physics_update_one
     call entity_doForAll
 ret

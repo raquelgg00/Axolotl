@@ -25,13 +25,15 @@ game_play:
     ;; call render_draw        ;; Dibujamos la entidad
 
     loop:
+        ;;IA UPDATE
         call physics_update
         call render_update
 
-        call cpct_waitVSYNC_asm
+        ;;MAN ENTITY UPDATEE
+        call cpct_waitVSYNC_asm ;; O EL WAIT
 
     jr    loop
 
 ret 
 
-;; wait
+;; wait, man_game_create_template_entity
