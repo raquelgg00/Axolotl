@@ -1,5 +1,6 @@
 
 .include "entity.h.s"
+.include "sys/physics.h.s"
 
 entity_vector:
     DefineNEntities entity_vector k_max_num_entities
@@ -63,4 +64,46 @@ entity_copy:
     
 ret
 
-;; init, destroy, forall, set4destruction, update, freespace
+;; ===============================
+;; EJECUTA PARA TODAS LAS ENTIDADES
+;; Input: HL -> Rutina a ejecutar
+;; Output:
+;; ===============================
+entity_doForAll:
+    ld a, (num_entities)
+    cp #0 
+    jr z, noEntities
+
+    ld ix, #entity_vector
+    ld (metodo), hl
+   
+    bucle:
+        push af
+
+        ;;comprobamos si la entidad es valida o no
+        ld a, e_status(ix) 
+        cp #e_type_invalid
+        jr z, noEntities
+        
+        metodo=.+1 ;;la direccion que quiero modificar (la actual mas 1)
+        call physics_update_one
+
+        pop af
+        ld bc, #k_size_entity
+        add ix, bc ;;paso a la siguiente
+        
+        dec a
+        jp nz, bucle
+
+    noEntities:
+ret
+
+entity_moveRight:
+    ld e_vx(ix), #1
+ret
+
+entity_moveLeft:
+    ld e_vx(ix), #-1
+ret
+
+;; init, destroy, set4destruction, update, freespace

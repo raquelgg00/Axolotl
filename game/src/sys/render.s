@@ -7,7 +7,7 @@
 ;; Destroy: AF, DE, BC, HL
 ;; Input: IX --> Pointers to the entity
 ;; ===============================
-render_draw:
+render_draw_one:
    ld    de, #0xC000      ;; Starting adrees of screen
    ld    c, e_x(ix)       ;; C = entity_X
    ld    b, e_y(ix)       ;; B = entity_Y
@@ -20,4 +20,16 @@ render_draw:
    call cpct_drawSolidBox_asm 
 ret
 
-;; render one (draw), init, update
+
+;; ===============================
+;; EJECUTA PARA TODAS LAS ENTIDADES
+;; Input:
+;; Output:
+;; ===============================
+render_update:
+    ld hl, #render_draw_one
+    call entity_doForAll
+ret
+
+
+;; init

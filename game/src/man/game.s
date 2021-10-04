@@ -1,6 +1,7 @@
 .include "game.h.s"
 .include "entity.h.s"
 .include "sys/render.h.s"
+.include "sys/physics.h.s"
 
 
 
@@ -21,9 +22,14 @@ ret
 game_play:
 
     ld ix, #entity_vector   ;; IX => 1a entidad
-    call render_draw        ;; Dibujamos la entidad
+    ;; call render_draw        ;; Dibujamos la entidad
 
     loop:
+        call physics_update
+        call render_update
+
+        call cpct_waitVSYNC_asm
+
     jr    loop
 
 ret 

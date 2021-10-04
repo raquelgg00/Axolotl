@@ -1,5 +1,6 @@
 .globl entity_create
 .globl entity_copy
+.globl entity_doForAll
 
 .globl entity_vector
 
@@ -36,8 +37,7 @@ k_size_entity      = 8
 
 ;; Define an entity with default values
 .macro DefineEntityDefault _name, _suf
-   DefineEntity _name'_suf, 0x4F, 0x50, 0xFF, 0x00, 0x01, 0x04, 0xFF, e_type_default;;
-                            
+   DefineEntity _name'_suf, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, e_type_invalid;;                   
 .endm
 
 ;; Define N default entities (changing the names)
