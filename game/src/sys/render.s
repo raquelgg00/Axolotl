@@ -19,3 +19,5 @@ render_draw:
    ex de, hl            ;; DrawSolidBox needs the position in DE
    call cpct_drawSolidBox_asm 
 ret
+
+;; render one (draw), init, update

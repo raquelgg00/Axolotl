@@ -27,3 +27,5 @@ game_play:
     jr    loop
 
 ret 
+
+;; wait

@@ -62,3 +62,5 @@ entity_copy:
     sbc hl, bc      ;; HL = HL - EntidadSize (Entidad Nueva)
     
 ret
+
+;; init, destroy, forall, set4destruction, update, freespace
