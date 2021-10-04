@@ -65,9 +65,14 @@ ret
 ;; Output:
 ;; ===============================
 physics_update_one:
-    ;; SI LA ENTIDAD TIENE INPUT COMPROBAR TECLADO
-    call physics_keyboard
+    ;; SI LA ENTIDAD TIENE INPUT COMPROBAR TECLADO 
+    ld a, e_status(ix)
+    and #e_type_input
+    cp #e_type_input
+    jr nz, no_input
+        call physics_keyboard
 
+    no_input:
     ;;actualizo x
     ld a, e_x(ix)
     add e_vx(ix)
@@ -89,5 +94,6 @@ ret
 physics_update:
     ;; COMPROBAR SIGNATURE CON entity_doForAll_matching
     ld hl, #physics_update_one
-    call entity_doForAll
+    ld b, #e_type_movable
+    call entity_doForAll_matching
 ret

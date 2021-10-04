@@ -44,7 +44,6 @@ entity_create:
     ld (registro_ix), hl
     ld ix, (registro_ix)
 
-    ld e_status(ix), #e_type_alive
 ret
 
 ;; ===============================
@@ -65,11 +64,12 @@ entity_copy:
 ret
 
 ;; ===============================
-;; EJECUTA PARA TODAS LAS ENTIDADES
+;; EJECUTA PARA TODAS LAS ENTIDADES CON COMPROBACION
 ;; Input: HL -> Rutina a ejecutar
+;;        B  -> Signature a comprobar
 ;; Output:
 ;; ===============================
-entity_doForAll:
+entity_doForAll_matching:
     ld a, (num_entities)
     cp #0 
     jr z, noEntities
@@ -85,8 +85,16 @@ entity_doForAll:
         cp #e_type_invalid
         jr z, noEntities
         
-        metodo=.+1 ;;la direccion que quiero modificar (la actual mas 1)
-        call physics_update_one
+        ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+        and b
+        cp b
+        jr nz, no_matching
+
+            metodo=.+1 ;;la direccion que quiero modificar (la actual mas 1)
+
+            call physics_update_one
+
+        no_matching:
 
         pop af
         ld bc, #k_size_entity

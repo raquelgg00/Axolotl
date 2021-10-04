@@ -1,6 +1,6 @@
 .globl entity_create
 .globl entity_copy
-.globl entity_doForAll
+.globl entity_doForAll_matching
 
 .globl entity_vector
 
@@ -16,7 +16,11 @@ e_col           = 6
 e_status        = 7
 
 e_type_invalid  = 0x00 
-e_type_alive    = 0x01 
+e_type_render   = 0x01
+e_type_movable  = 0x02
+e_type_input    = 0x04
+e_type_ia       = 0x08
+e_type_animated = 0x10
 e_type_dead     = 0x80
 e_type_default  = 0x7F
 

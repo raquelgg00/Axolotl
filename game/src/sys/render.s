@@ -28,7 +28,8 @@ ret
 ;; ===============================
 render_update:
     ld hl, #render_draw_one
-    call entity_doForAll
+    ld b, #e_type_render
+    call entity_doForAll_matching
 ret
 
 
