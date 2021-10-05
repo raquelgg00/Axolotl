@@ -59,6 +59,27 @@ physics_keyboard:
     s_not_pressed::
 ret
 
+
+
+;PARA OPTIMIZAR
+;comprueba_borde:
+
+    ;ld a, e_x(ix)       ; A = playerX
+    ;cp b
+    ;jr nz, actualizaX ; if (x == borde) actulizaX
+        ;; Estoy en X = borde
+        ;ld a, e_vx(ix)      ;; a = vx
+        ;cp #0               
+        ;jp m, no_actualizaX ;; if (vx < 0)  no_actualizaX
+
+;    actualizaX:
+;        ld a, e_x(ix)
+;        add e_vx(ix)
+;        ld e_x(ix), a
+
+;    no_actualizaX:
+;ret
+
 ;; ===============================
 ;; ACTUALIZAR UNA ENTIDAD
 ;; Input:
@@ -74,29 +95,74 @@ physics_update_one:
 
     no_input:
 
-    ;;actualizo x
+
+    ; HACER PARA OPTIMIZAR --> Comprobamos movimiento en el borde izq
+    ;ld b, #0x00
+    ;call comprueba_borde
+
+    ;; X - PARTE IZQUIERDA 
     ld a, e_x(ix)
     cp #0
-    jr nz, actualizaX
+    jr nz, actualizaXizq
         ;; Estoy en X = 0
-        ld a, e_vx(ix)
-        cp #0
-        jp m, no_actualizaX
-        
-
+        ld a, e_vx(ix)      ;; a = vx
+        cp #0               
+        jp m, no_actualizaX ;; if (vx < 0)  no_actualizaX
+       
     ;; X = 0 y VX positiva
-    actualizaX:
+    actualizaXizq:
+
+
+
+    ;; X - PARTE DERECHA
+    ld a, e_x(ix)       ; A = playerX
+    cp #0x47
+    jr nz, actualizaXdrcha ; if (x == bordeDrcha-anchoSprite) actulizaDrcha
+        ;; Estoy en X = bordeDrcha
+        ld a, e_vx(ix)      ;; a = vx
+        cp #0               
+        jp p, no_actualizaX ;; if (vx > 0)  no_actualizaX
+
+        actualizaXdrcha:
+    ;;  x = x + vx
     ld a, e_x(ix)
     add e_vx(ix)
     ld e_x(ix), a
 
     no_actualizaX:
 
-    ;;actualizo y
+    ;;; ---------------------
+
+    ;; Y - PARTE ARRIBA 
+    ld a, e_y(ix)
+    cp #0
+
+    jr nz, actualizaYarriba
+        ;; Estoy en Y = 0
+        ld a, e_vy(ix)      ;; a = vy
+        cp #0               
+        jp m, no_actualizaY ;; if (vy < 0)  no_actualizaX
+       
+    ;; X = 0 y VX positiva
+    actualizaYarriba:
+
+
+    ;; Y - PARTE ABAJO
+    ld a, e_y(ix)       ; A = playerX
+    cp #0xC8-#0x14
+    jr nz, actualizaYabajo ; if (x == bordeDrcha-anchoSprite) actulizaDrcha
+        ;; Estoy en X = bordeDrcha
+        ld a, e_vy(ix)      ;; a = vx
+        cp #0               
+        jp p, no_actualizaY ;; if (vx > 0)  no_actualizaX
+
+        actualizaYabajo:
+    ;;  y = y + vy
     ld a, e_y(ix)
     add e_vy(ix)
     ld e_y(ix), a
 
+    no_actualizaY:
 
 ret
 

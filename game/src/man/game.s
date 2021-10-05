@@ -28,11 +28,12 @@ game_prepare_templates:
 
 ret
 
+;; Ojo, las posiciones iniciales de Y deben ser multiplos de 4
 player_tmp:
-    DefineEntity p1, #0x27, #0x27, #0x00, #0x00, #0x08, #0x14, #_spr_player, e_type_player, #0x0000
+    DefineEntity p1, #0x27, #0x28, #0x00, #0x00, #0x08, #0x14, #_spr_player, e_type_player, #0x0000
 
 enemy_tmp:
-    DefineEntity e1, #0x39, #0x12, #0xFF, #0x00, #0x08, #0x14, #_spr_enemy, e_type_enemy, #ia_mover_drcha_izq
+    DefineEntity e1, #0x39, #0x20, #0xFF, #0x00, #0x08, #0x14, #_spr_enemy, e_type_enemy, #ia_mover_drcha_izq
     
 
 
