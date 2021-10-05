@@ -24,9 +24,7 @@ _main::
 
       call getPlayerPtr    ;; devuelve en HL el puntero
       call checkCollision  ;; devuelve a=FF si hay colision
-      ld (0xC000), a
-      ld (0xC001), a
-      ld (0xC002), a
+      
       
       ; Dibujo al personaje (azul oscuro)
       call drawPlayer

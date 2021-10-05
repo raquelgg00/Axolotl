@@ -1,4 +1,16 @@
+.include "obstaculo.h.s"
+.include "cpctelera.h.s"
+;.globl cpct_drawSolidBox_asm
+;.globl cpct_drawSprite_asm
+;.globl cpct_getScreenPtr_asm
+;.globl cpct_scanKeyboard_asm
+;.globl cpct_isKeyPressed_asm
+;.globl cpct_waitVSYNC_asm
 .area _DATA
+
+    _string: .asciz "DEATH"
+
+
 .area _CODE
 
 obsX:    .db #80-4
@@ -6,7 +18,7 @@ obsY:    .db #82
 obsW:    .db #4   ; 1 byte 
 obsH:    .db #4   ; 4 bytes
 
-.include "cpctelera.h.s"
+
 
 ; ================================================
 ; Usa la X y Y para dibujar al obstaculo
@@ -116,9 +128,33 @@ checkCollision::
 
     ;; Collision
     ld a, #0xFF
+        string: .asciz "DEATH"
+        ld d, #0
+        ld e, #3
+        call cpct_setDrawCharM1_asm
+
+        ld de, #0xC000
+        ld b, #24
+        ld c, #16
+        call cpct_getScreenPtr_asm
+
+        ld iy, #string
+        call cpct_drawStringM1_asm
     ret 
 
     ;; No Collision
     no_collision:
-        ld a, #0x00
+        string2: .asciz "....."
+        ld d, #0
+        ld e, #3
+        call cpct_setDrawCharM1_asm
+
+        ld de, #0xC000
+        ld b, #24
+        ld c, #16
+        call cpct_getScreenPtr_asm
+
+        ld iy, #string2
+        call cpct_drawStringM1_asm
+     
     ret
