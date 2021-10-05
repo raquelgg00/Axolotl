@@ -73,10 +73,24 @@ physics_update_one:
         call physics_keyboard
 
     no_input:
+
     ;;actualizo x
+    ld a, e_x(ix)
+    cp #0
+    jr nz, actualizaX
+        ;; Estoy en X = 0
+        ld a, e_vx(ix)
+        cp #0
+        jp m, no_actualizaX
+        
+
+    ;; X = 0 y VX positiva
+    actualizaX:
     ld a, e_x(ix)
     add e_vx(ix)
     ld e_x(ix), a
+
+    no_actualizaX:
 
     ;;actualizo y
     ld a, e_y(ix)

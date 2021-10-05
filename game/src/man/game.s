@@ -2,9 +2,13 @@
 .include "entity.h.s"
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
+.include "ia/ia.h.s"
+
+.globl _spr_player
+.globl _spr_enemy
 
 e_type_player: .db 0x00
-e_type_enemy: .db 0x00
+e_type_enemy:  .db 0x00
 
 game_prepare_templates:
     ;; Preparamos los tipos para el player
@@ -25,14 +29,17 @@ game_prepare_templates:
 ret
 
 player_tmp:
-    DefineEntity p1, #0x27, #0x27, #0x00, #0x00, #0x01, #0x04, #0x0F, e_type_player
+    DefineEntity p1, #0x27, #0x27, #0x00, #0x00, #0x08, #0x14, #_spr_player, e_type_player, #0x0000
 
 enemy_tmp:
-    DefineEntity e1, #0x39, #0x12, #0x00, #0x00, #0x01, #0x04, #0xFF, e_type_enemy
+    DefineEntity e1, #0x39, #0x12, #0xFF, #0x00, #0x08, #0x14, #_spr_enemy, e_type_enemy, #ia_mover_drcha_izq
     
 
 
 game_init:
+    
+    call render_init
+
     ;; Preparar el template
     call game_prepare_templates
 
@@ -56,7 +63,7 @@ game_play:
     ;; call render_draw        ;; Dibujamos la entidad
 
     loop:
-        ;;IA UPDATE
+        call ia_update
         call physics_update
         call render_update
 

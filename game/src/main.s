@@ -9,6 +9,7 @@
 _main::
   
    call cpct_disableFirmware_asm
+   
 
    call game_init
    call game_play
