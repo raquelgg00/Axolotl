@@ -25,7 +25,6 @@
 ;.equ Ent_sprite_h, 6
 
 defineEntity player, 60, 64
-defineEntity player2, 60, 120
 
 ;playerData:
 ;    playerX:     .db #60
@@ -136,7 +135,7 @@ moveRight:
 
     ld a, (playerX)
 
-    cp #80-2 ; check against right limit (screenSize - playerSize)
+    cp #80-3 ; check against right limit (screenSize - playerSize)
     jr z, dont_go_right
         inc a  ; Move right
 
@@ -172,10 +171,6 @@ erasePlayer::
     ld a, #0x00 
     ld ix, #playerData
     call drawPlayer2
-
-    ld a, #0x00 
-    ld ix, #player2Data
-    call drawPlayer2
 ret
 
 
@@ -183,10 +178,6 @@ ret
 drawPlayer::
     ld a, #0xFF 
     ld ix, #playerData
-    call drawPlayer2
-
-    ld a, #0xFF 
-    ld ix, #player2Data
     call drawPlayer2
 ret
 
