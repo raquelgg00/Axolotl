@@ -1,9 +1,9 @@
 .area _DATA
 .area _CODE
 
-obsX:    .db #80-1
+obsX:    .db #80-4
 obsY:    .db #82
-obsW:    .db #1   ; 1 byte 
+obsW:    .db #4   ; 1 byte 
 obsH:    .db #4   ; 4 bytes
 
 .include "cpctelera.h.s"
@@ -38,7 +38,8 @@ drawObstacle2::
 
     ex de, hl           ; Necesita en DE la posicion de memoria a dibujar
     pop af
-    ld bc, #0x0401      ; 4x4 pixeles
+    ld bc, #0x0404
+
     
     call cpct_drawSolidBox_asm
 
@@ -51,7 +52,7 @@ updateObstacle::
     jr nz, notResetPosition
 
         ; si la bala ha llegado a X = 0, restart
-        ld a, #80-1
+        ld a, #80-4
 
     notResetPosition:
         ld (obsX), a
@@ -79,7 +80,6 @@ checkCollision::
     jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
     jp m, no_collision  ;; salto si es menor que cero
 
-
     
     ; if (playerX + playerW <= obs_x) --> no collision
     ; playerX + playerW - obsX <= 0
@@ -92,6 +92,25 @@ checkCollision::
     ld  b, a                ; b = obsX
     ld  a, c                ; a = playerX + playerM
     sub b                   ; a = (playerX+playerM) - obsX
+    jr z, no_collision
+    jp m, no_collision
+
+    dec hl
+    dec hl
+
+
+    ; if (playerY + playerH <= obs_y) --> no collision
+    ; playerY + playerH - obs_y <= 0
+    inc hl                  ; hl = PlayerY
+    ld  a, (hl)             ; a =  playerY
+    inc hl
+    inc hl                  ; hl = playerH
+    add (hl)                ; a = playerY +  playerH
+    ld  c, a                ; c = playerY +  playerH
+    ld  a, (obsY)           ; a = obsY
+    ld  b, a                ; b = obsY
+    ld  a, c                ; a = playerY + playerH
+    sub b                   ; a = (playerY+playerH) - obs_y
     jr z, no_collision
     jp m, no_collision
 

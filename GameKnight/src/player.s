@@ -4,10 +4,10 @@
 
 .macro defineEntity name, x, y
     name'Data:
-        name'X:     .db x
-        name'Y:     .db y
-        name'W:     .db #2   ; 1 byte 
-        name'H:     .db 8   ; 4 bytes
+        name'X:     .db x   ;;
+        name'Y:     .db y   ;;
+        name'W:     .db #3   ; 1 byte 
+        name'H:     .db 24   ; 4 bytes
         name'Jump:  .db #-1 ; -1 when not jumping
 .endm
 
@@ -24,7 +24,7 @@
 ;.equ Ent_sprite_l, 5
 ;.equ Ent_sprite_h, 6
 
-defineEntity player, 60, 80
+defineEntity player, 60, 64
 defineEntity player2, 60, 120
 
 ;playerData:
@@ -50,9 +50,9 @@ defineEntity player2, 60, 120
 
 ;; Jump Table
 jumptable:
-    .db #-3, #-2, #-1, #-1
-    .db #-1, #00, #00, #00
-    .db #01, #02, #02, #03
+    .db #-6, #-4, #-2, #-2
+    .db #-2, #00, #00, #00
+    .db #02, #04, #04, #06
     .db #0x80
 
 
