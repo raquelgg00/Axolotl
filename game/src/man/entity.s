@@ -107,4 +107,123 @@ entity_doForAll_matching:
 ret
 
 
+
+
+entity_set4destruction:
+    ld e_status(ix), #e_type_dead
+ret
+
+
+;; ===============================
+;; DELETE ALL ENTITIES WITH STATUS e_type_dead = 0x80
+;; ===============================
+entity_destroy:
+    ;; We point to the first entity
+    ld ix, #entity_vector
+
+    ;; Comprobamos si hay entidades
+    ld a, #num_entities
+    cp #0 
+    jr z, no_hay_entidades
+
+    loop_status:
+
+        push af
+
+        ld a, e_status(ix)
+
+        ;; Check Entity status
+        cp #e_type_invalid
+        jr nz, continueDeleting
+            ; If status = 00 (invalid) --> break loop
+            pop af
+            ret
+
+        ;; If status != 00 --> continue
+        continueDeleting:
+        cp #e_type_dead
+        jr nz, doNotDelete
+            ; if status == #0x11 --> DELETE ENTITY
+
+            ;; Check if there is only one
+            ld a, (num_entities)
+            cp #1
+            jr z, deleteOne
+
+                ;; Do HL --> LastEntity
+                ld hl, (next_entity)  ;; the one which doesnt exist yet
+
+                ;; hl = hl - 8
+                ld de, #-k_size_entity
+                add hl, de
+
+                ;; Next Entity = next_entity - sizeEntity
+                ld (next_entity), hl
+
+                ; Do DE --> IX (EntityDeleting)
+                ld (registro_ix), ix
+                ld de, (registro_ix)
+                
+                ; Copy last entity data into the deleting one
+                call entity_copy
+
+                ;; Point HL --> LastENtity
+                ld hl, (next_entity)  ;; the one which doesnt exist yet
+                
+                ;ld iy, (next_entity)
+                ld iy, (next_entity)
+
+                ;; IY -> Last ENtity
+                ld e_status(iy), #e_type_invalid
+
+                ;; num_entities--
+                ld a, (num_entities)
+                dec a
+                ld (num_entities), a
+
+                ;; ix = ix - 8
+                ld de, #-k_size_entity
+                add ix, de
+
+                pop af
+                dec a
+
+                jr nz, loop_status
+                    
+
+            deleteOne:
+                ld e_status(ix), #e_type_invalid
+
+                ;; num_entities--
+                ld a, (num_entities)
+                dec a
+                ld (num_entities), a
+
+                pop af
+                ret
+
+
+
+        doNotDelete:
+            ; ix -> ix + k_size_entity (point to the next entity)
+            ld bc, #k_size_entity
+            add ix, bc
+
+            ;; if nextEntity.status == invalid  --> breakLoop
+        
+
+        pop af
+        dec a
+
+    jr nz, loop_status
+
+    no_hay_entidades:
+
+ret
+
+
+
 ;; init, destroy, set4destruction, update, freespace, entity_doForAll_matching
+
+
+

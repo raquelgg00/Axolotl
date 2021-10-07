@@ -68,6 +68,8 @@ game_play:
         call physics_update
         call render_update
 
+        call entity_destroy
+
         ;;MAN ENTITY UPDATEE
         call cpct_waitVSYNC_asm ;; O EL WAIT
 
