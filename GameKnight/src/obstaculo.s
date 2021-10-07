@@ -146,7 +146,7 @@ checkCollision::
     no_collision:
         string2: .asciz "....."
         ld d, #0
-        ld e, #3
+        ld e, #0
         call cpct_setDrawCharM1_asm
 
         ld de, #0xC000
