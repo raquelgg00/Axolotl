@@ -44,6 +44,7 @@ game_init:
     ;; Preparar el template
     call game_prepare_templates
 
+    ;; OPTIMIZAR CON EL GAME_CREATE_TEMPLATE
     ;; Crear al Jugador
     call entity_create
     ex de, hl               ;; de = EntidadCreada
@@ -66,9 +67,10 @@ game_play:
     loop:
         call ia_update
         call physics_update
+        ;;animation
         call render_update
 
-        call entity_destroy
+        call entity_destroy ;; cambiar por entity_update
 
         ;;MAN ENTITY UPDATEE
         call cpct_waitVSYNC_asm ;; O EL WAIT
@@ -77,4 +79,4 @@ game_play:
 
 ret 
 
-;; wait, man_game_create_template_entity
+;; man_game_create_template_entity (rutina para pasar la template y que cree la entidad)
