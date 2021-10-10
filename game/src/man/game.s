@@ -65,7 +65,7 @@ game_play:
         
         call render_update
 
-        ; PINTAMOS BORDE DE BLANCO
+        ; PINTAMOS BORDE DE GRIS
         ld h, #0  ;; color del fondo
         call setBorder
 
