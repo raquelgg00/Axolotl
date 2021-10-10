@@ -82,6 +82,6 @@ ret
 ia_update:
     ;; COMPROBAR SIGNATURE CON entity_doForAll_matching
     ld hl, #ia_update_one
-    ld b, #e_type_ia
+    ld b , #e_cmp_ia
     call entity_doForAll_matching
 ret

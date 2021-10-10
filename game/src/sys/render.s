@@ -57,7 +57,7 @@ ret
 ;; ===============================
 render_update:
     ld hl, #render_draw_one
-    ld b, #e_type_render
+    ld b, #e_cmp_render
     call entity_doForAll_matching
 ret
 
