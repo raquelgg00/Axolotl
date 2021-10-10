@@ -4,6 +4,7 @@
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
 .include "sys/ia.h.s"
+.include "cpctelera.h.s"
 
     
 ;; ===============================
@@ -48,43 +49,29 @@ game_play:
 
         ;; Falta poner Animation
 
-
         call ia_update
 
-        ; PINTAMOS BORDE DE GREEN
-        ld h, #22     ;; color del fondo
-        call setBorder
+        
+        cpctm_setBorder_asm HW_GREEN    ; PINTAMOS BORDE DE GREEN
 
         call physics_update
-
-
-        ; PINTAMOS BORDE DE ROJO
-        ld h, #28    ;; color del borde en la paleta
-        call setBorder
-
+ 
+        cpctm_setBorder_asm HW_RED       ; PINTAMOS BORDE DE ROJO
         
         call render_update
 
-        ; PINTAMOS BORDE DE BLANCO
-        ld h, #0  ;; color del fondo
-        call setBorder
-
+        cpctm_setBorder_asm HW_WHITE     ; PINTAMOS BORDE DE BLANCO
 
         call entity_update 
 
-        ;;call cpct_waitVSYNC_asm
-        ld e, #10
-        call main_espera
+        call cpct_waitVSYNC_asm
+        ;ld e, #10
+        ;call main_espera
 
     jr    loop
 
 ret 
 
-setBorder:
-    ; PINTAMOS BORDE
-    ld l, #16    ;; color del borde en la paleta
-    call cpct_setPALColour_asm
-ret
 
 main_espera:
       halt
