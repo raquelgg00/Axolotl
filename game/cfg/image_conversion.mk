@@ -47,6 +47,7 @@ $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), main_palette ))
 $(eval $(call IMG2SP, CONVERT         , assets/player.png , 16, 20, spr_player))
 $(eval $(call IMG2SP, CONVERT         , assets/enemy.png  , 16, 20, spr_enemy))
+$(eval $(call IMG2SP, CONVERT         , assets/mago.png  , 16, 29, spr_mago))
 
 ##
 ## OLD MACROS (For compatibility)
