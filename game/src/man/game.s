@@ -90,7 +90,7 @@ game_play:
         call setBorder
 
 
-        call entity_destroy ;; cambiar por entity_update
+        call entity_update ;; cambiar por entity_update
 
         ;;MAN ENTITY UPDATEE
         call cpct_waitVSYNC_asm ;; O EL WAIT

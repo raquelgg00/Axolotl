@@ -107,22 +107,25 @@ entity_doForAll_matching:
 ret
 
 
-
-
+;; ===============================
+;; MARCAR PARA DEDSTRUIR
+;; Input: IX -> Entidad a marcar
+;; ===============================
 entity_set4destruction:
     ld e_status(ix), #e_type_dead
 ret
 
-
 ;; ===============================
-;; DELETE ALL ENTITIES WITH STATUS e_type_dead = 0x80
+;; BORRAR TODAS LAS ENTIDADES QUE LE PASAN
+;; Input: IX -> Entidad actual
+;; Destroy: AF, DE, IY, HL
 ;; ===============================
-entity_destroy:
+entity_destroy_malo:
     ;; We point to the first entity
     ld ix, #entity_vector
 
     ;; Comprobamos si hay entidades
-    ld a, #num_entities
+    ld a, (num_entities)
     cp #0 
     jr z, no_hay_entidades
 
@@ -221,9 +224,81 @@ entity_destroy:
 
 ret
 
+entity_destroy:
+    ;; Do HL --> LastEntity
+    ld hl, (next_entity)  ;; the one which doesnt exist yet
+
+    ;; hl = hl - 8
+    ld de, #-k_size_entity
+    add hl, de
+
+    ;; Next Entity = next_entity - sizeEntity
+    ld (next_entity), hl
+
+    ; Do DE --> IX (EntityDeleting)
+    ld (registro_ix), ix
+    ld de, (registro_ix)
+                
+    ; Copy last entity data into the deleting one (copia hl en de)
+    call entity_copy
+                
+    ;ld iy, (next_entity)
+    ld iy, (next_entity)
+
+    ;; IY -> Last ENtity
+    ld e_status(iy), #e_type_invalid
+
+    ;; num_entities--
+    ld a, (num_entities)
+    dec a
+    ld (num_entities), a
+
+    ;; ix = ix - 8
+    ld de, #-k_size_entity
+    add ix, de
+
+ret 
 
 
-;; init, destroy, set4destruction, update, freespace, entity_doForAll_matching
+;; ===============================
+;; VER SI LAS ENTIDADES SE TIENEN QUE BORRAR e_type_dead = 0x80
+;; Input: 
+;; Destroy: AF, IX, BC
+;; ===============================
+entity_update:
+    ld a, (num_entities)
+    cp #0 
+    jr z, sinEntities
+
+    ld ix, #entity_vector
+    ld (metodo), hl
+   
+    buscarDead:
+        push af
+
+        ;;comprobamos si la entidad es valida o no
+        ld a, e_status(ix) 
+        cp #e_type_invalid
+        jr z, sinEntities
+        
+        ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+        cp #e_type_dead
+        jr nz, noDestroy
+            call entity_destroy
+
+        noDestroy:
+
+        pop af
+        ld bc, #k_size_entity
+        add ix, bc ;;paso a la siguiente
+        
+        dec a
+        jp nz, buscarDead
+
+    sinEntities:
+ret
+
+;; freespace, entity_doForAll_matching
 
 
 

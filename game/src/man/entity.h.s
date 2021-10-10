@@ -1,8 +1,7 @@
 .globl entity_create
 .globl entity_copy
 .globl entity_doForAll_matching
-.globl entity_set4destruction
-.globl entity_destroy
+.globl entity_update
 .globl entity_vector
 
 
