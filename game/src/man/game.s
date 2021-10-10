@@ -2,7 +2,7 @@
 .include "entity.h.s"
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
-.include "ia/ia.h.s"
+.include "sys/ia.h.s"
 
 .globl _spr_player
 .globl _spr_enemy
@@ -65,10 +65,30 @@ game_play:
     ;; call render_draw        ;; Dibujamos la entidad
 
     loop:
+
+        ;; Falta poner Animation
+
+
         call ia_update
+
+        ; PINTAMOS BORDE DE GREEN
+        ld h, #22     ;; color del fondo
+        call setBorder
+
         call physics_update
-        ;;animation
+
+
+        ; PINTAMOS BORDE DE ROJO
+        ld h, #28    ;; color del borde en la paleta
+        call setBorder
+
+        
         call render_update
+
+        ; PINTAMOS BORDE DE BLANCO
+        ld h, #0  ;; color del fondo
+        call setBorder
+
 
         call entity_destroy ;; cambiar por entity_update
 
@@ -78,5 +98,12 @@ game_play:
     jr    loop
 
 ret 
+
+setBorder:
+    ; PINTAMOS BORDE
+    ld l, #16    ;; color del borde en la paleta
+    call cpct_setPALColour_asm
+ret
+
 
 ;; man_game_create_template_entity (rutina para pasar la template y que cree la entidad)
