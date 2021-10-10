@@ -1,44 +1,41 @@
 .include "game.h.s"
+.include "entity_templates.h.s"
 .include "entity.h.s"
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
 .include "sys/ia.h.s"
 
-.globl _spr_player
-.globl _spr_enemy
-
-
-player_tmp_cmps = e_cmp_render | e_cmp_movable | e_cmp_input
-enemy_tmp_cmps  = e_cmp_render | e_cmp_ia | e_cmp_movable
-
-;; Ojo   ->  las posiciones iniciales de Y deben ser multiplos de 4
-player_tmp:
-    ;;                   Tipo       cmps                x      y     vx     vy  width  height  sprite            ia
-    DefineEntity p1, e_type_player  player_tmp_cmps #0x27, #0x28, #0x00, #0x00, #0x08, #0x14, #_spr_player,  #0x0000
-
-enemy_tmp:
-    ;;                   Tipo       cmps              x      y     vx     vy    width  height  sprite            ia
-    DefineEntity e1, e_type_enemy   enemy_tmp_cmps #0x39, #0x20, #0x00, #0x00, #0x08, #0x14, #_spr_enemy, #ia_seguimiento_player
     
-
+;; ===============================
+;; CREA UNA ENTIDAD CON UN TEMPLATE
+;; Input: DE --> template que queremos
+;; ===============================
+game_create_template:
+    call entity_create
+    ;; de tiene la template y hl la entidad creada, hay que intercambiarlas
+    ex de, hl
+    call entity_copy
+ret
 
 game_init:
     
     call render_init
 
-
-    ;; OPTIMIZAR CON EL GAME_CREATE_TEMPLATE
     ;; Crear al Jugador
-    call entity_create
-    ex de, hl               ;; de = EntidadCreada
-    ld hl, #p1              ;; hl = player_tmp
-    call entity_copy
+    ld de, #player1
+    call game_create_template
+    ;call entity_create
+    ;ex de, hl               ;; de = EntidadCreada
+    ;ld hl, #p1              ;; hl = player_tmp
+    ;call entity_copy
 
     ;;Crear el primer enemigo
-    call entity_create
-    ex de, hl               ;; de = EntidadCreada
-    ld hl, #e1              ;; hl = player_tmp
-    call entity_copy
+    ld de, #enemy1
+    call game_create_template
+    ;call entity_create
+    ;ex de, hl               ;; de = EntidadCreada
+    ;ld hl, #e1              ;; hl = player_tmp
+    ;call entity_copy
 ret 
 
 
@@ -73,10 +70,11 @@ game_play:
         call setBorder
 
 
-        call entity_update ;; cambiar por entity_update
+        call entity_update 
 
-        ;;MAN ENTITY UPDATEE
-        call cpct_waitVSYNC_asm ;; O EL WAIT
+        ;;call cpct_waitVSYNC_asm
+        ld e, #10
+        call main_espera
 
     jr    loop
 
@@ -86,6 +84,14 @@ setBorder:
     ; PINTAMOS BORDE
     ld l, #16    ;; color del borde en la paleta
     call cpct_setPALColour_asm
+ret
+
+main_espera:
+      halt
+      halt
+      call cpct_waitVSYNC_asm
+      dec e
+    jp nz, main_espera
 ret
 
 
