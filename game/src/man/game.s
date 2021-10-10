@@ -7,33 +7,38 @@
 .globl _spr_player
 .globl _spr_enemy
 
-e_type_player: .db 0x00
-e_type_enemy:  .db 0x00
 
 game_prepare_templates:
-    ;; Preparamos los tipos para el player
-    ld a, #e_type_render
-    or #e_type_movable
-    or #e_type_input
+
+    ; Cambio operadores lo hago con | en vex de 
+    ;; ESTO NO DEBERIA YA HACER FALTA
+    ;ld a, #e_type_render
+    ;or #e_type_movable
+    ;or #e_type_input
+    ;ld ix, #player_tmp
+    ;ld e_tipo(ix), a
+
+    ;; Preparamos los componentes para el template del player
     ld ix, #player_tmp
-    ld e_status(ix), a
+    ld a, #(e_cmp_render | e_cmp_movable | e_cmp_input)
+    ld e_cmps(ix), a
 
-    ;; Preparamos los tipos para el enemy
-    ld a, #e_type_render
-    or #e_type_ia
-    or #e_type_movable
+    ;; Preparamos los componentes para el template del enemigo
     ld ix, #enemy_tmp
-    ld e_status(ix), a
-
+    ld a, #(e_cmp_render | e_cmp_ia | e_cmp_movable)
+    ld e_cmps(ix), a
 
 ret
 
-;; Ojo, las posiciones iniciales de Y deben ser multiplos de 4
+;; Ojo   ->  las posiciones iniciales de Y deben ser multiplos de 4
+;; OJO 2 ->  En cmps se mete 0, pero en la funcion game_prepare_templates lo editamos para meterles distintos componentes
 player_tmp:
-    DefineEntity p1, #0x27, #0x28, #0x00, #0x00, #0x08, #0x14, #_spr_player, e_type_player, #0x0000
+    ;;                   Tipo       cmps    x      y     vx     vy    width  height  sprite            ia
+    DefineEntity p1, e_type_player  #0x00 #0x27, #0x28, #0x00, #0x00, #0x08, #0x14, #_spr_player,  #0x0000
 
 enemy_tmp:
-    DefineEntity e1, #0x39, #0x20, #0xFF, #0x00, #0x08, #0x14, #_spr_enemy, e_type_enemy, #ia_mover_drcha_izq
+    ;;                   Tipo       cmps    x      y     vx     vy    width  height  sprite            ia
+    DefineEntity e1, e_type_enemy   #0x00 #0x39, #0x20, #0xFF, #0x00, #0x08, #0x14, #_spr_enemy, #ia_mover_drcha_izq
     
 
 

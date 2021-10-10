@@ -88,9 +88,9 @@ ret
 ;; ===============================
 physics_update_one:
     ;; SI LA ENTIDAD TIENE INPUT COMPROBAR TECLADO 
-    ld a, e_status(ix)
-    and #e_type_input
-    cp #e_type_input
+    ld a, e_cmps(ix)
+    and #e_cmp_input
+    cp #e_cmp_input
     jr nz, no_input
         call physics_keyboard
 
@@ -175,6 +175,6 @@ ret
 physics_update:
     ;; COMPROBAR SIGNATURE CON entity_doForAll_matching
     ld hl, #physics_update_one
-    ld b, #e_type_movable
+    ld b, #e_cmp_movable
     call entity_doForAll_matching
 ret

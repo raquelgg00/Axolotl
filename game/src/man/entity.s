@@ -81,11 +81,12 @@ entity_doForAll_matching:
         push af
 
         ;;comprobamos si la entidad es valida o no
-        ld a, e_status(ix) 
+        ld a, e_tipo(ix) 
         cp #e_type_invalid
         jr z, noEntities
         
         ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+        ld a, e_cmps(ix) 
         and b
         cp b
         jr nz, no_matching
@@ -112,7 +113,7 @@ ret
 ;; Input: IX -> Entidad a marcar
 ;; ===============================
 entity_set4destruction:
-    ld e_status(ix), #e_type_dead
+    ld e_tipo(ix), #e_type_dead
 ret
 
 ;; ===============================
@@ -133,7 +134,7 @@ entity_destroy_malo:
 
         push af
 
-        ld a, e_status(ix)
+        ld a, e_tipo(ix)
 
         ;; Check Entity status
         cp #e_type_invalid
@@ -177,7 +178,7 @@ entity_destroy_malo:
                 ld iy, (next_entity)
 
                 ;; IY -> Last ENtity
-                ld e_status(iy), #e_type_invalid
+                ld e_tipo(iy), #e_type_invalid
 
                 ;; num_entities--
                 ld a, (num_entities)
@@ -195,7 +196,7 @@ entity_destroy_malo:
                     
 
             deleteOne:
-                ld e_status(ix), #e_type_invalid
+                ld e_tipo(ix), #e_type_invalid
 
                 ;; num_entities--
                 ld a, (num_entities)
@@ -212,7 +213,7 @@ entity_destroy_malo:
             ld bc, #k_size_entity
             add ix, bc
 
-            ;; if nextEntity.status == invalid  --> breakLoop
+            ;; if nextEntity.tipo == invalid  --> breakLoop
         
 
         pop af
@@ -246,7 +247,7 @@ entity_destroy:
     ld iy, (next_entity)
 
     ;; IY -> Last ENtity
-    ld e_status(iy), #e_type_invalid
+    ld e_tipo(iy), #e_type_invalid
 
     ;; num_entities--
     ld a, (num_entities)
@@ -277,7 +278,7 @@ entity_update:
         push af
 
         ;;comprobamos si la entidad es valida o no
-        ld a, e_status(ix) 
+        ld a, e_tipo(ix) 
         cp #e_type_invalid
         jr z, sinEntities
         
