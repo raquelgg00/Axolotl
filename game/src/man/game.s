@@ -52,17 +52,17 @@ game_play:
         call ia_update
 
         
-        cpctm_setBorder_asm HW_GREEN    ; PINTAMOS BORDE DE GREEN
+        cpctm_setBorder_asm HW_RED    ; PINTAMOS BORDE DE GREEN
 
         call physics_update
  
-        cpctm_setBorder_asm HW_RED       ; PINTAMOS BORDE DE ROJO
+        cpctm_setBorder_asm HW_GREEN      ; PINTAMOS BORDE DE ROJO
         
         call render_update
 
         cpctm_setBorder_asm HW_WHITE     ; PINTAMOS BORDE DE BLANCO
 
-        call entity_update 
+        call entity_update ;; borramos entidades
 
         call cpct_waitVSYNC_asm
         ;ld e, #10
