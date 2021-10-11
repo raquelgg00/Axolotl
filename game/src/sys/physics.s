@@ -2,6 +2,30 @@
 .include "physics.h.s"
 .include "man/entity.h.s"
 
+move_right:
+    ld e_vx(ix), #1
+ret 
+
+move_left:
+    ld e_vx(ix), #-1
+ret 
+
+move_up:
+    ld e_vy(ix), #-4
+ret 
+
+move_down:
+    ld e_vy(ix), #4    
+ret
+
+;; Tabla para las acciones del teclado
+key_actions:
+    .dw Key_D, move_right
+    .dw Key_A, move_left
+    .dw Key_W, move_up
+    .dw Key_S, move_down
+    .dw 0
+
 
 ;; ===============================
 ;; INPUT TECLADO
@@ -12,53 +36,41 @@ physics_keyboard:
     ld e_vx(ix), #0
     ld e_vy(ix), #0
 
+    ;; Comprueba el teclado
     call cpct_scanKeyboard_asm
 
-    ;; Check if D is pressed
-    ld hl, #Key_D
-    call cpct_isKeyPressed_asm
-    cp #0
-    jr z, d_not_pressed
+    ;; Bucle para recorrer las acciones del teclado
+    ld iy, #key_actions-4 ;; la primera vez que entro no hay que hacer el iy++, asi que al principio resto 4 para que al sumarle luego 4 se quede apuntando a la primera KEY
 
-        ; D is pressed
-        ld e_vx(ix), #1
+    loop_keys:
+
+        ;; IY -> NextKey (iy++)
+        ld bc, #4
+        add iy, bc
+
+        ;; HL = next key
+        ld l, 0(iy)
+        ld h, 1(iy)
+
+        ;; Comprobamos si Key=NULL (hemos llegado al final de las acciones)
+        ld a, l     ; A = L
+        or h        ; A = L | H 
+        ret z       ; if (key=NULL) ret
+
+        ;; Comprobamos si Key estaba pulsada
+        call cpct_isKeyPressed_asm
+        jr z, loop_keys
+
+        ;; Se esta pulsando la tecla
+        ld hl, #loop_keys   ;; /  Meto en la pila la dirección a la que quiero que vuelva despues de que
+        push hl            ;; \  se haga el ret, cuando voy a jp(hl) (porque no ponemos call)
+
+        ;; HL = puntero a funcion de la accion
+        ld l, 2(iy)        
+        ld h, 3(iy)        
         
+        jp (hl)            ;; Salto a la funcion de acción
 
-    d_not_pressed::
-
-    ;; Check if A is pressed
-    ld hl, #Key_A
-    call cpct_isKeyPressed_asm
-    cp #0
-    jr z, a_not_pressed
-
-        ; A is pressed
-        ld e_vx(ix), #-1
-
-    a_not_pressed::
-
-    ;; Check if W is pressed
-    ld hl, #Key_W
-    call cpct_isKeyPressed_asm
-    cp #0
-    jr z, w_not_pressed
-
-        ; W is pressed
-        ld e_vy(ix), #-4
-
-    w_not_pressed::
-
-    ;; Check if S is pressed
-    ld hl, #Key_S
-    call cpct_isKeyPressed_asm
-    cp #0
-    jr z, s_not_pressed
-
-        ; S is pressed
-        ld e_vy(ix), #4
-
-    s_not_pressed::
-ret
 
 
 
