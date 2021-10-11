@@ -63,6 +63,41 @@ entity_copy:
     
 ret
 
+
+entity_doForAll:
+    ld a, (num_entities)
+    cp #0 
+    jr z, noEntitiesForAll
+
+    ld ix, #entity_vector
+    ld (metodoForAll), hl
+   
+    bucleForAll:
+        push af
+
+        ;;comprobamos si la entidad es valida o no
+        ld a, e_tipo(ix) 
+        cp #e_type_invalid
+        jr z, noEntitiesForAll
+        
+        push bc
+        metodoForAll=.+1 ;;la direccion que quiero modificar (la actual mas 1)
+        call physics_update_one
+        pop bc
+       
+        pop af
+        ld de, #k_size_entity
+        add ix, de ;;paso a la siguiente
+        
+        dec a
+        jp nz, bucleForAll
+
+    noEntitiesForAll:
+ret
+
+
+
+
 ;; ===============================
 ;; EJECUTA PARA TODAS LAS ENTIDADES CON COMPROBACION
 ;; Input: HL -> Rutina a ejecutar

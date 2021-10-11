@@ -1,5 +1,6 @@
 .globl entity_create
 .globl entity_copy
+.globl entity_doForAll
 .globl entity_doForAll_matching
 .globl entity_doForAll_pairs_matching
 .globl entity_update
@@ -63,7 +64,7 @@ k_size_entity      = 16
 ;; Define an entity with default values
 .macro DefineEntityDefault _name, _suf
                         ;;  Tipo  cmps  x     y      vx   vy   width height  sprite   ia     anim  counter  collides
-   DefineEntity _name'_suf, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0x0000, 0xDE,   0xAD;;                   
+   DefineEntity _name'_suf, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0x0000, 0xDE,   0xAD;;                   
 .endm
 
 ;; Define N default entities (changing the names)
