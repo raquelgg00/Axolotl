@@ -1,6 +1,7 @@
 .include "game.h.s"
 .include "entity_templates.h.s"
 .include "entity.h.s"
+.include "sys/animations.h.s"
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
 .include "sys/ia.h.s"
@@ -47,7 +48,7 @@ game_play:
 
     loop:
 
-        ;; Falta poner Animation
+        call animations_update
         
         call ia_update
 
