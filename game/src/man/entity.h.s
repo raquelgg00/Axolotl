@@ -19,7 +19,10 @@ e_spriteL         = 8
 e_spriteH         = 9
 e_iaL             = 10
 e_iaH             = 11
-e_collidesAgainst = 12
+e_animL           = 12
+e_animH           = 13
+e_animCounter     = 14
+e_collidesAgainst = 15
 
 
 ;; Tipos
@@ -37,13 +40,13 @@ e_cmp_ia       = 0x08
 e_cmp_animated = 0x10
 e_cmp_collider = 0x20
 
-k_max_num_entities = 15
-k_size_entity      = 13
+k_max_num_entities = 20
+k_size_entity      = 16
 
 
 
 ;; Define an entity 
-.macro DefineEntity _name, _tipo, _cmps, _x, _y, _vx, _vy, _w, _h, _sprite, _ia, _collides
+.macro DefineEntity _name, _tipo, _cmps, _x, _y, _vx, _vy, _w, _h, _sprite, _ia, _anim, _animCounter, _collides
    _name:
       .db _tipo      ;; (Invalid 00, Player 01, Enemigo 02, Dead 80, Default 7F)
       .db _cmps      ;; ()
@@ -52,13 +55,15 @@ k_size_entity      = 13
       .db _w, _h     ;; Width, Height
       .dw _sprite    ;; sprite (puntero al sprite)
       .dw _ia        ;; IA     (puntero a funcion)
+      .dw _anim      ;; puntero a la animacion
+      .db _animCounter  ;; contador de animacion
       .db _collides  ;; Collides Against
 .endm
 
 ;; Define an entity with default values
 .macro DefineEntityDefault _name, _suf
-                        ;;  Tipo  cmps  x     y      vx   vy   width height  sprite   ia    collides
-   DefineEntity _name'_suf, 0xDE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0xAD      ;;                   
+                        ;;  Tipo  cmps  x     y      vx   vy   width height  sprite   ia     anim  counter  collides
+   DefineEntity _name'_suf, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0x0000, 0xDE,   0xAD;;                   
 .endm
 
 ;; Define N default entities (changing the names)

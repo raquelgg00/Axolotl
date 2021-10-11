@@ -1,0 +1,2 @@
+.globl animations_update
+.globl animations_update_one

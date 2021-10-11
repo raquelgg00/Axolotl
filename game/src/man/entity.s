@@ -86,18 +86,18 @@ entity_doForAll_matching:
         jr z, noEntities
         
         ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+        
         ld a, e_cmps(ix) 
         and b
         cp b
         jr nz, no_matching
-
             push bc
             metodo=.+1 ;;la direccion que quiero modificar (la actual mas 1)
             call physics_update_one
             pop bc
 
         no_matching:
-
+       
         pop af
         ld de, #k_size_entity
         add ix, de ;;paso a la siguiente
