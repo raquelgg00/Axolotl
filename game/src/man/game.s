@@ -4,6 +4,7 @@
 .include "sys/render.h.s"
 .include "sys/physics.h.s"
 .include "sys/ia.h.s"
+.include "sys/collision.h.s"
 .include "cpctelera.h.s"
 
     
@@ -52,6 +53,7 @@ game_play:
         call ia_update
 
         call physics_update
+        call sys_collision_update
  
         cpctm_setBorder_asm HW_GREEN   ; PINTAMOS BORDE DE GREEN
         
@@ -66,6 +68,7 @@ game_play:
         call cpct_waitVSYNC_asm
         ;ld e, #10
         ;call main_espera
+
 
     jr    loop
 

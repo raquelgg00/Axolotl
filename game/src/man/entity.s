@@ -91,21 +91,95 @@ entity_doForAll_matching:
         cp b
         jr nz, no_matching
 
+            push bc
             metodo=.+1 ;;la direccion que quiero modificar (la actual mas 1)
-
             call physics_update_one
+            pop bc
 
         no_matching:
 
         pop af
-        ld bc, #k_size_entity
-        add ix, bc ;;paso a la siguiente
+        ld de, #k_size_entity
+        add ix, de ;;paso a la siguiente
         
         dec a
         jp nz, bucle
 
     noEntities:
 ret
+
+
+;; ===============================
+;; EJECUTA PARA TODAS LAS ENTIDADES CON COMPROBACION DE DOS EN DOS
+;; Input: HL -> Rutina a ejecutar
+;;        B  -> Signature a comprobar
+;; Output:
+;; ===============================
+entity_doForAll_pairs_matching:
+    ld a, (num_entities)
+    cp #0 
+    jr z, noEntities1
+
+    ld ix, #entity_vector ;; ix => primera entidad
+    ld (metodoPair), hl
+   
+    bucle1:
+        push af
+
+        ;;comprobamos si la entidad es valida o no
+        ld a, e_tipo(ix) 
+        cp #e_type_invalid
+        jr z, noEntities1
+        
+        ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+        ld a, e_cmps(ix) 
+        and b
+        cp b
+        jr nz, no_matching1
+
+           ;; IY => Siguiente entidad (a la de la derecha de IX)
+           ld de, #k_size_entity    ;; DE = tamEntity
+           ld (registro_ix), ix     ;; regIX = Entidad1
+           ld hl, (registro_ix)     ;; HL = Entidad1
+           add hl, de               ;; HL = HL + DE = Entidad2
+           ld (registro_ix), hl     ;; regIX = Entidad2
+           ld iy, (registro_ix)     ;; IY => Entidad 2
+
+            bucle2:
+                ;;comprobamos si la entidad2 es valida o no
+                ld a, e_tipo(iy) 
+                cp #e_type_invalid
+                jr z, no_matching1
+
+                ;; Comprobar que el estado de la entidad coincide con la mascara que pasan por el registro B
+                ld a, e_cmps(iy) 
+                and b
+                cp b
+                jr nz, no_matching2
+                    push bc
+                    ;; Entidad1 (en IX) colisiona con ENtidad2 (en IY)
+                    metodoPair=.+1 ;;la direccion que quiero modificar (la actual mas 1)
+                    call physics_update_one
+                    pop bc
+
+                no_matching2:
+                ld de, #k_size_entity
+                add iy, de ;;paso a la siguiente
+                jr bucle2
+
+        no_matching1:
+
+        pop af
+        ld de, #k_size_entity
+        add ix, de ;;paso a la siguiente
+        
+        dec a
+        jp nz, bucle1
+
+    noEntities1:
+ret
+
+
 
 
 ;; ===============================

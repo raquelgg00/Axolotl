@@ -1,0 +1,1 @@
+.globl sys_collision_update
