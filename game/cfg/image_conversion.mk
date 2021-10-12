@@ -30,7 +30,8 @@
 ## 16 colours palette
 ## PALETTE=0 1 2 3 6 9 11 12 13 15 16 18 20 24 25 26
 
-PALETTE= 0 1 5 9 14 16 23 25 26 12 13 15 16 18 20 1
+## mios son solo los 7 primeros
+PALETTE= 0 13 1 11 23 16 18 12 13 15 16 18 20 24 25 26
 
 ## Default values
 #$(eval $(call IMG2SP, SET_MODE        , 0                  ))  { 0, 1, 2 }
@@ -50,6 +51,7 @@ $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), main_palette ))
 $(eval $(call IMG2SP, CONVERT         , assets/player.png , 16, 20, spr_player))
 $(eval $(call IMG2SP, CONVERT         , assets/enemy.png  , 16, 20, spr_enemy))
 $(eval $(call IMG2SP, CONVERT         , assets/mago.png  , 16, 29, spr_mago))
+$(eval $(call IMG2SP, CONVERT         , assets/player1.png  , 10, 20, spr_player1))
 
 ##
 ## OLD MACROS (For compatibility)

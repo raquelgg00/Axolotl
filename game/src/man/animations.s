@@ -1,30 +1,30 @@
 .include "man/animations.h.s"
 
-.globl _spr_mago_0
-.globl _spr_mago_1
-.globl _spr_mago_2
-.globl _spr_mago_3
-.globl _spr_mago_4
-.globl _spr_mago_5
-.globl _spr_mago_6
-.globl _spr_mago_7
+.globl _spr_player1_00
+.globl _spr_player1_01
+.globl _spr_player1_02
+.globl _spr_player1_03
+.globl _spr_player1_04
+.globl _spr_player1_05
+.globl _spr_player1_06
+.globl _spr_player1_07
 
-mago_stop_down:
-    DefineFrame mago_0, 0x0C, #_spr_mago_0
-    DefineFrame mago_4, 0x0C, #_spr_mago_4
-    DefineFrame mago_fin1, 0x00, mago_stop_down
+player1_stop_down:
+    DefineFrame 0x0C, #_spr_player1_00
+    DefineFrame 0x0C, #_spr_player1_04
+    DefineFrame 0x00, player1_stop_down
 
-mago_stop_right:
-    DefineFrame mago_3, 0x0C, #_spr_mago_3
-    DefineFrame mago_7, 0x0C, #_spr_mago_7
-    DefineFrame mago_fin2, 0x00, mago_stop_right
+player1_stop_right:
+    DefineFrame 0x0C, #_spr_player1_03
+    DefineFrame 0x0C, #_spr_player1_07
+    DefineFrame 0x00, player1_stop_right
     
-mago_stop_left:
-    DefineFrame mago_2, 0x0C, #_spr_mago_2
-    DefineFrame mago_6, 0x0C, #_spr_mago_6
-    DefineFrame mago_fin3, 0x00, mago_stop_left
+player1_stop_left:
+    DefineFrame 0x0C, #_spr_player1_02
+    DefineFrame 0x0C, #_spr_player1_06
+    DefineFrame 0x00, player1_stop_left
 
-mago_stop_up:
-    DefineFrame mago_1, 0x0C, #_spr_mago_1
-    DefineFrame mago_5, 0x0C, #_spr_mago_5
-    DefineFrame mago_fin4, 0x00, mago_stop_up
+player1_stop_up:
+    DefineFrame 0x0C, #_spr_player1_01
+    DefineFrame 0x0C, #_spr_player1_05
+    DefineFrame 0x00, player1_stop_up

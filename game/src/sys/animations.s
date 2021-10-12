@@ -13,7 +13,7 @@ registro_iy : .dw 0x0000
 ;; ===============================
 animations_move_right:
     ;; cambio animacion
-    ld hl, #mago_stop_right
+    ld hl, #player1_stop_right
     ld e_animL(ix), l
     ld e_animH(ix), h
 
@@ -34,7 +34,7 @@ ret
 
 animations_move_left:
     ;; cambio animacion
-    ld hl, #mago_stop_left
+    ld hl, #player1_stop_left
     ld e_animL(ix), l
     ld e_animH(ix), h
 
@@ -54,7 +54,7 @@ ret
 
 animations_move_up:
     ;; cambio animacion
-    ld hl, #mago_stop_up
+    ld hl, #player1_stop_up
     ld e_animL(ix), l
     ld e_animH(ix), h
 
@@ -74,7 +74,7 @@ ret
 
 animations_move_down:
     ;; cambio animacion
-    ld hl, #mago_stop_down
+    ld hl, #player1_stop_down
     ld e_animL(ix), l
     ld e_animH(ix), h
 
