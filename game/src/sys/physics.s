@@ -1,21 +1,31 @@
 .include "keyboard/keyboard.h.s"
 .include "physics.h.s"
+.include "sys/animations.h.s"
 .include "man/entity.h.s"
+
+.globl _spr_mago_3
+.globl _spr_mago_2
+.globl _spr_mago_1
+.globl _spr_mago_0
 
 move_right:
     ld e_vx(ix), #1
+    call animations_move_right
 ret 
 
 move_left:
     ld e_vx(ix), #-1
+    call animations_move_left
 ret 
 
 move_up:
     ld e_vy(ix), #-4
+    call animations_move_up
 ret 
 
 move_down:
-    ld e_vy(ix), #4    
+    ld e_vy(ix), #4
+    call animations_move_down
 ret
 
 ;; Tabla para las acciones del teclado

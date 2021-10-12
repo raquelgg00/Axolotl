@@ -48,28 +48,28 @@ game_play:
     ;; call render_draw        ;; Dibujamos la entidad
 
     loop:
-
-        cpctm_setBorder_asm HW_YELLOW  ; PINTAMOS BORDE DE GREEN
-
-        call animations_update
         
-        cpctm_setBorder_asm HW_RED ; PINTAMOS BORDE DE GREEN
+        cpctm_setBorder_asm HW_BRIGHT_RED ; PINTAMOS BORDE DE ROJO
 
         call ia_update
 
-        cpctm_setBorder_asm HW_YELLOW ; PINTAMOS BORDE DE GREEN
+        cpctm_setBorder_asm HW_BRIGHT_YELLOW ; PINTAMOS BORDE DE AMARILLO
 
         call physics_update
 
-        cpctm_setBorder_asm HW_ORANGE ; PINTAMOS BORDE DE GREEN
+        cpctm_setBorder_asm HW_ORANGE ; PINTAMOS BORDE DE NARANJA
 
         call sys_collision_update
+
+        cpctm_setBorder_asm HW_PINK  ; PINTAMOS BORDE DE ROSA
+
+        call animations_update
  
-        cpctm_setBorder_asm HW_GREEN   ; PINTAMOS BORDE DE GREEN
+        cpctm_setBorder_asm HW_GREEN   ; PINTAMOS BORDE DE VERDE
         
         call render_update
 
-        cpctm_setBorder_asm HW_BLUE    ; PINTAMOS BORDE DE BLANCO
+        cpctm_setBorder_asm HW_BLUE    ; PINTAMOS BORDE DE AZUL
 
         call entity_update ;; borramos entidades
 

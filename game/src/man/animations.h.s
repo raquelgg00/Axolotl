@@ -1,4 +1,7 @@
-.globl magoQuieto
+.globl mago_stop_down
+.globl mago_stop_up
+.globl mago_stop_left
+.globl mago_stop_right
 .globl k_size_animation
 
 k_size_animation = 3
