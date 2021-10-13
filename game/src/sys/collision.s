@@ -2,7 +2,8 @@
 .include "man/entity.h.s"
 
 
-registro_hl: .dw 0x000
+registro_hl:  .dw 0x000
+registro_aux: .dw 0x000
 
 ;;  Para hacer las colisiones tenemos en
 ;;  IX -> Entidad1 
@@ -10,11 +11,19 @@ registro_hl: .dw 0x000
 
 ;; Colision Enemigo choca contra el Player
 enemy_player:
-    ld de, #0xC000
-    ld a, #0xF0 
-    ld c, #4
-    ld b, #16
-    call cpct_drawSolidBox_asm
+
+    push ix
+    push iy
+
+    ld (registro_hl), ix    ;registroHL = enemigo
+    ld (registro_aux), iy
+    ld ix, (registro_aux)
+    ld iy, (registro_hl)
+    
+    call entity_set4destruction
+
+    pop ix
+    pop iy
 ret
 
 ;; Colision Bala choca contra el Player

@@ -5,6 +5,7 @@
 .globl entity_doForAll_pairs_matching
 .globl entity_update
 .globl entity_vector
+.globl entity_set4destruction
 
 
 ; Constantes
