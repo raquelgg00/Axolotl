@@ -372,6 +372,7 @@ ret
 
 ;; ===============================
 ;; VER SI LAS ENTIDADES SE TIENEN QUE BORRAR e_type_dead = 0x80
+;; Y ADEMAS CREAMOS NUEVAS ENTIDADES
 ;; Input: 
 ;; Destroy: AF, IX, BC
 ;; ===============================
@@ -406,6 +407,17 @@ entity_update:
         jp nz, buscarDead
 
     sinEntities:
+
+
+    ;; CREAMOS ENTIDADES (de momento las creo en COLISION y asi me ahorro el primer if)
+    ;; if (set4create)
+        ;; if (num_entities < k_max_num_entities) 
+            ;; crea un enemigo en X e Y (primero estaticas, luego le pondremos aleatoriedad, y que las coja de una tabla)
+    
+    
+
+
+
 ret
 
 ;; freespace, entity_doForAll_matching

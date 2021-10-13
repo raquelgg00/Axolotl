@@ -1,5 +1,7 @@
 .include "collision.h.s"
 .include "man/entity.h.s"
+.include "man/game.h.s"
+.include "man/entity_templates.h.s"
 
 
 registro_hl:  .dw 0x000
@@ -15,12 +17,18 @@ enemy_player:
     push ix
     push iy
 
+    ;; Cambio de variables entre IX e IY (para destruir al enemigo y no al player)
     ld (registro_hl), ix    ;registroHL = enemigo
     ld (registro_aux), iy
     ld ix, (registro_aux)
     ld iy, (registro_hl)
     
-    call entity_set4destruction
+    call entity_set4destruction ;; necesita en IX la entidad a destruir
+
+    ld a, #0x01
+    ld (bool_create_enemy), a
+    ;ld de, #enemy1
+    ;call game_create_template
 
     pop ix
     pop iy

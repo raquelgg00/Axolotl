@@ -29,7 +29,7 @@ move_down:
     call animations_move_down
 ret
 
-player_shot:
+player_shot2:
     call game_player_shot
 ret
 
@@ -39,7 +39,7 @@ key_actions:
     .dw Key_A, move_left
     .dw Key_W, move_up
     .dw Key_S, move_down
-    .dw Key_Space, player_shot
+    .dw Key_Space, player_shot2
     .dw 0
 
 
