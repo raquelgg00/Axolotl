@@ -8,6 +8,8 @@
 .include "sys/collision.h.s"
 .include "cpctelera.h.s"
 
+player_shot: .db 0x00
+
     
 ;; ===============================
 ;; CREA UNA ENTIDAD CON UN TEMPLATE
@@ -39,6 +41,21 @@ game_init:
     ;ex de, hl               ;; de = EntidadCreada
     ;ld hl, #e1              ;; hl = player_tmp
     ;call entity_copy
+ret 
+
+;; ===================
+;; METODO PARA DISPARAR
+;; Comprueba que no se haya generado un disparo y crea una nueva entidad disparo
+;; ===================
+game_player_shot:
+
+    ld a, #player_shot
+    cp #0
+    jp nz, disparo_lanzado
+        ;; Si no se ha disparado, es decir, player_shot = 0
+        ld de, #shot1
+        call game_create_template
+    disparo_lanzado:
 ret 
 
 
