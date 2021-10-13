@@ -24,12 +24,14 @@ e_animL           = 12
 e_animH           = 13
 e_animCounter     = 14
 e_collidesAgainst = 15
+e_last_dir        = 16
 
 
 ;; Tipos
 e_type_invalid  = 0x00 
 e_type_player   = 0x01
 e_type_enemy    = 0x02
+e_type_shot     = 0x03
 e_type_dead     = 0x80
 e_type_default  = 0x7F
 
@@ -47,7 +49,7 @@ k_size_entity      = 16
 
 
 ;; Define an entity 
-.macro DefineEntity _name, _tipo, _cmps, _x, _y, _vx, _vy, _w, _h, _sprite, _ia, _anim, _animCounter, _collides
+.macro DefineEntity _name, _tipo, _cmps, _x, _y, _vx, _vy, _w, _h, _sprite, _ia, _anim, _animCounter, _collides, _lastdir
    _name:
       .db _tipo      ;; (Invalid 00, Player 01, Enemigo 02, Dead 80, Default 7F)
       .db _cmps      ;; ()
@@ -59,12 +61,13 @@ k_size_entity      = 16
       .dw _anim      ;; puntero a la animacion
       .db _animCounter  ;; contador de animacion
       .db _collides  ;; Collides Against
+      .db _lastdir   ;; Ultima direccion a la que apunta la entidad (solo para ver hacia donde dispara el player)
 .endm
 
 ;; Define an entity with default values
 .macro DefineEntityDefault _name, _suf
-                        ;;  Tipo  cmps  x     y      vx   vy   width height  sprite   ia     anim  counter  collides
-   DefineEntity _name'_suf, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0x0000, 0xDE,   0xAD;;                   
+                        ;;  Tipo  cmps  x     y      vx   vy   width height  sprite   ia     anim  counter  collides  last_dir
+   DefineEntity _name'_suf, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0000, 0x0000, 0xDE,     0xAD,    0x00;;                   
 .endm
 
 ;; Define N default entities (changing the names)

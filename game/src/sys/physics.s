@@ -2,6 +2,7 @@
 .include "physics.h.s"
 .include "sys/animations.h.s"
 .include "man/entity.h.s"
+.include "man/game.h.s"
 
 .globl _spr_mago_3
 .globl _spr_mago_2
@@ -28,12 +29,17 @@ move_down:
     call animations_move_down
 ret
 
+player_shot:
+    call game_player_shot
+ret
+
 ;; Tabla para las acciones del teclado
 key_actions:
     .dw Key_D, move_right
     .dw Key_A, move_left
     .dw Key_W, move_up
     .dw Key_S, move_down
+    .dw Key_Space, player_shot
     .dw 0
 
 
@@ -73,7 +79,7 @@ physics_keyboard:
 
         ;; Se esta pulsando la tecla
         ld hl, #loop_keys   ;; /  Meto en la pila la dirección a la que quiero que vuelva despues de que
-        push hl            ;; \  se haga el ret, cuando voy a jp(hl) (porque no ponemos call)
+        push hl             ;; \  se haga el ret, cuando voy a jp(hl) (porque no ponemos call)
 
         ;; HL = puntero a funcion de la accion
         ld l, 2(iy)        
