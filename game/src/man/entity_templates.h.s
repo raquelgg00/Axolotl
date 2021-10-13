@@ -1,3 +1,3 @@
 .globl player1
-.globl enemy1
+.globl zombie
 .globl shot1

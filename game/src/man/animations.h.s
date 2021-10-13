@@ -2,6 +2,10 @@
 .globl player1_stop_up
 .globl player1_stop_left
 .globl player1_stop_right
+.globl zombie_stop_down
+.globl zombie_stop_up
+.globl zombie_stop_left
+.globl zombie_stop_right
 .globl k_size_animation
 
 k_size_animation = 3

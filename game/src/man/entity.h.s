@@ -31,7 +31,7 @@ e_last_dir        = 16
 ;; Tipos
 e_type_invalid  = 0x00 
 e_type_player   = 0x01
-e_type_enemy    = 0x02
+e_type_zombie   = 0x02
 e_type_shot     = 0x03
 e_type_dead     = 0x80
 e_type_default  = 0x7F
