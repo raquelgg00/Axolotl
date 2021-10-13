@@ -6,6 +6,7 @@
 .globl entity_update
 .globl entity_vector
 .globl entity_set4destruction
+.globl entity_set4creation
 
 
 ; Constantes
@@ -45,7 +46,7 @@ e_cmp_animated = 0x10
 e_cmp_collider = 0x20
 
 k_max_num_entities = 20
-k_size_entity      = 16
+k_size_entity      = 17
 
 
 

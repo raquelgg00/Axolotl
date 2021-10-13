@@ -9,7 +9,6 @@
 .include "cpctelera.h.s"
 
 player_shot:       .db 0x00
-bool_create_enemy: .db 0x00
     
 ;; ===============================
 ;; CREA UNA ENTIDAD CON UN TEMPLATE
@@ -29,18 +28,11 @@ game_init:
     ;; Crear al Jugador
     ld de, #player1
     call game_create_template
-    ;call entity_create
-    ;ex de, hl               ;; de = EntidadCreada
-    ;ld hl, #p1              ;; hl = player_tmp
-    ;call entity_copy
 
     ;;Crear el primer enemigo
     ld de, #zombie
     call game_create_template
-    ;call entity_create
-    ;ex de, hl               ;; de = EntidadCreada
-    ;ld hl, #e1              ;; hl = player_tmp
-    ;call entity_copy
+
 ret 
 
 ;; ===================
@@ -93,18 +85,6 @@ game_play:
         cpctm_setBorder_asm HW_WHITE     ; PINTAMOS BORDE DE GRIS
 
         call cpct_waitVSYNC_asm
-
-        ld a, (bool_create_enemy)
-        cp #0x01
-        jr nz, dontCreateEnemy
-            ld de, #enemy1
-            call game_create_template
-
-            ld a, #0x00
-            ld (bool_create_enemy), a
-        dontCreateEnemy:
-            
-            
 
 
         ;ld e, #10

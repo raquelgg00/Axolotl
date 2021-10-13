@@ -51,9 +51,10 @@ ia_seguimiento_player:
     
     ;; COMPROBAMOS LA Y
     check_y:
-    ld a, e_y(ix) ;; Cargamos en a la x del enemigo
-    ld b, e_y(iy) ;; Cargamos en b la x del player
-    cp b
+    ld a, e_y(ix) ;; Cargamos en a la y del enemigo
+    ld b, e_y(iy) ;; Cargamos en b la y del player
+    cp b          ;; a - b = EnemigoY - PlayerY
+    ;sbc a, b
     jp z, misma_posicion_y
     jp m, enemigo_arriba_player ;; Si la resta es negativa, quiere decir que la x del player es mayor que la del enemigo
         ld e_vy(ix), #-2        ;; Por tanto, hay que mover el enemigo hacia la derecha aumentando posiciones

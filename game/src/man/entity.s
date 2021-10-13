@@ -1,6 +1,8 @@
 
 .include "entity.h.s"
 .include "sys/physics.h.s"
+.include "man/entity_templates.h.s"
+.include "man/game.h.s"
 
 entity_vector:
     DefineNEntities entity_vector k_max_num_entities
@@ -9,6 +11,8 @@ entity_vector:
 num_entities: .db 00            
 next_entity : .dw entity_vector
 registro_ix : .dw 0x0000
+bool_create_enemy: .db 0x00
+create_enemy_type: .dw 0x0000
 
 ;; ===============================
 ;; REGISTRA UNA ENTIDAD
@@ -225,6 +229,17 @@ entity_set4destruction:
     ld e_tipo(ix), #e_type_dead
 ret
 
+
+;; ===============================
+;; MARCAR PARA CREAR (por defecto zombie)
+;; Input: DE -> TYPE DE ENTIDAD A CREAR 
+;; ===============================
+entity_set4creation:
+    ld a, #0x01
+    ld (bool_create_enemy), a
+    ld (create_enemy_type), de
+ret
+
 ;; ===============================
 ;; BORRAR TODAS LAS ENTIDADES QUE LE PASAN
 ;; Input: IX -> Entidad actual
@@ -410,13 +425,24 @@ entity_update:
 
 
     ;; CREAMOS ENTIDADES (de momento las creo en COLISION y asi me ahorro el primer if)
-    ;; if (set4create)
-        ;; if (num_entities < k_max_num_entities) 
-            ;; crea un enemigo en X e Y (primero estaticas, luego le pondremos aleatoriedad, y que las coja de una tabla)
     
-    
+    ;; Falta comprobar que no nos pasamos --> if (num_entities < k_max_num_entities) 
+    ;; Falta crear un enemigo en X e Y (primero estaticas, luego le pondremos aleatoriedad, y que las coja de una tabla)
+    ld a, (bool_create_enemy)
+    cp #0                           ; if (set4creation != 0)
+    jr z, no_crea_entidad
 
+        ;; Si (bool_create_enemy != 00) Creamos entidad
+        ld de, (create_enemy_type)
+        call game_create_template
 
+        ;; Ponemos bool_create_enemy a false
+        ld a, #00
+        ld (bool_create_enemy), a
+        ld de, #0x0000
+        ld (create_enemy_type), de
+
+    no_crea_entidad:
 
 ret
 

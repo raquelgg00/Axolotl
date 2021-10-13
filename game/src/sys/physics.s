@@ -136,8 +136,13 @@ physics_update_one:
 
 
     ;; X - PARTE DERECHA
+    ld a, #0x50         ; A = X_derecha
+    ld c, e_w(ix)
+    sub a, c
+    ld b, a             ; B = X_derecha - Player_Width
     ld a, e_x(ix)       ; A = playerX
-    cp #0x47
+
+    cp b
     jr nz, actualizaXdrcha ; if (x == bordeDrcha-anchoSprite) actulizaDrcha
         ;; Estoy en X = bordeDrcha
         ld a, e_vx(ix)      ;; a = vx
@@ -169,8 +174,13 @@ physics_update_one:
 
 
     ;; Y - PARTE ABAJO
-    ld a, e_y(ix)       ; A = playerX
-    cp #0xC8-#0x14
+    ld a, #0xC8         ; A = Y_ABAJO
+    ld c, e_h(ix)       ; C = Player_height
+    sub a, c            ; A = y_abajo - playerHeigjt
+    ld b, a
+    ld a, e_y(ix)       ; A = playerY
+    cp b
+
     jr nz, actualizaYabajo ; if (x == bordeDrcha-anchoSprite) actulizaDrcha
         ;; Estoy en X = bordeDrcha
         ld a, e_vy(ix)      ;; a = vx

@@ -25,13 +25,12 @@ enemy_player:
     
     call entity_set4destruction ;; necesita en IX la entidad a destruir
 
-    ld a, #0x01
-    ld (bool_create_enemy), a
-    ;ld de, #enemy1
-    ;call game_create_template
+    ld de, #zombie
+    call entity_set4creation ;; necesita en DE el template de entidad a crear
+    
 
-    pop ix
     pop iy
+    pop ix
 ret
 
 ;; Colision Bala choca contra el Player
@@ -92,6 +91,15 @@ sys_collision_update_one_entity:
     sub e_y(iy)
     jr z, no_collision
     jp m, no_collision
+
+
+    ;; Si IX == IY no hago nada
+    ld (registro_aux), iy
+    ld (registro_hl), ix
+    ld a, (#registro_aux-#registro_hl)
+    cp #0
+    ret z
+
 
 
     ;; Collision
