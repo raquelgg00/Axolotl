@@ -35,7 +35,7 @@ game_init:
     ;call entity_copy
 
     ;;Crear el primer enemigo
-    ld de, #enemy1
+    ld de, #zombie
     call game_create_template
     ;call entity_create
     ;ex de, hl               ;; de = EntidadCreada

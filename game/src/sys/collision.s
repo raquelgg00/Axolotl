@@ -43,7 +43,7 @@ ret
 
 ;; Tabla de colisiones
 colisiones:
-    .db e_type_enemy, e_type_player 
+    .db e_type_zombie, e_type_player 
         .dw enemy_player
 
     ;.db e_type_bala, e_type_player 

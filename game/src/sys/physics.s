@@ -4,11 +4,6 @@
 .include "man/entity.h.s"
 .include "man/game.h.s"
 
-.globl _spr_mago_3
-.globl _spr_mago_2
-.globl _spr_mago_1
-.globl _spr_mago_0
-
 move_right:
     ld e_vx(ix), #1
     call animations_move_right
@@ -29,9 +24,6 @@ move_down:
     call animations_move_down
 ret
 
-player_shot2:
-    call game_player_shot
-ret
 
 ;; Tabla para las acciones del teclado
 key_actions:
@@ -39,7 +31,7 @@ key_actions:
     .dw Key_A, move_left
     .dw Key_W, move_up
     .dw Key_S, move_down
-    .dw Key_Space, player_shot2
+    .dw Key_Space, game_player_shot
     .dw 0
 
 
