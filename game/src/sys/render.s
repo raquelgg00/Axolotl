@@ -1,7 +1,6 @@
 .include "render.h.s"
 .include "man/entity.h.s"
 
-.globl _spr_player
 .globl _main_palette
 
 ;; ===============================

@@ -4,11 +4,6 @@
 .include "man/entity.h.s"
 .include "man/game.h.s"
 
-.globl _spr_mago_3
-.globl _spr_mago_2
-.globl _spr_mago_1
-.globl _spr_mago_0
-
 move_right:
     ld e_vx(ix), #1
     call animations_move_right
