@@ -57,11 +57,11 @@ ia_seguimiento_player:
     jr c, enemigo_arriba_player ;; Si hay carry (EnemyY - PlayerY < 0 --> Hay carry)
     jr z, misma_posicion_y
         ; no hay carry y no es cero --> EnemyY > Player_Y --> Enemigo Abajo
-        ld e_vy(ix), #-2        ;; ENEMIGO se mueve hacia ARRIBA
+        ld e_vy(ix), #-4        ;; ENEMIGO se mueve hacia ARRIBA
         ret                 
 
     enemigo_arriba_player:      ;; Si es positiva, la x del enemigo esta mas a la derecha que la del player
-    ld e_vy(ix), #2             ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
+    ld e_vy(ix), #4             ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
     ret
 
     misma_posicion_y:

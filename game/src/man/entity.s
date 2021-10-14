@@ -232,12 +232,19 @@ ret
 
 ;; ===============================
 ;; MARCAR PARA CREAR (por defecto zombie)
-;; Input: DE -> TYPE DE ENTIDAD A CREAR 
+;; Input: DE -> TEMPLATE DE ENTIDAD A CREAR 
+;;        A --> X de la nueva entidad
+;;        B --> Y de la nueva entidad
 ;; ===============================
 entity_set4creation:
+    
+    ld (create_enemy_type), de
+    ld ix, (create_enemy_type)
+    ld e_x(ix), a
+    ld e_y(ix), b
+
     ld a, #0x01
     ld (bool_create_enemy), a
-    ld (create_enemy_type), de
 ret
 
 ;; ===============================

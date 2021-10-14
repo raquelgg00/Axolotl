@@ -8,8 +8,9 @@
 .include "sys/collision.h.s"
 .include "cpctelera.h.s"
 
-player_shot:       .db 0x00
-    
+player_shot: .db 0x00
+;llamada_ia:  .db 0x02
+
 ;; ===============================
 ;; CREA UNA ENTIDAD CON UN TEMPLATE
 ;; Input: DE --> template que queremos
@@ -61,7 +62,16 @@ game_play:
         
         cpctm_setBorder_asm HW_BRIGHT_RED ; PINTAMOS BORDE DE ROJO
 
-        call ia_update
+
+        ; POR SI HAY QUE LLAMAR A LA IA MENOS VECES (pero tiembla un poco los zombies)
+        ;ld a, (llamada_ia)
+        ;cp #0
+        ;jr nz, no_IA
+            call ia_update
+        ;    ld a, #0x02
+        ;no_IA:
+        ;dec a
+        ;ld (llamada_ia), a
 
         cpctm_setBorder_asm HW_BRIGHT_YELLOW ; PINTAMOS BORDE DE AMARILLO
 

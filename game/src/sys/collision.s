@@ -7,6 +7,10 @@
 registro_hl:  .dw 0x000
 registro_aux: .dw 0x000
 
+posiciones_spawn_enemigos: 
+    .db 0x04, 0x04
+    .db 0x4A, 0x04
+
 ;;  Para hacer las colisiones tenemos en
 ;;  IX -> Entidad1 
 ;;  IY -> Entidad2
@@ -25,10 +29,34 @@ enemy_player:
     
     call entity_set4destruction ;; necesita en IX la entidad a destruir
 
-    ld de, #zombie
-    call entity_set4creation ;; necesita en DE el template de entidad a crear
     
 
+    call cpct_getRandom_mxor_u8_asm ;; Destroys AF, BC, DE, HL
+    ld a, l
+    and #0x01   ; Me devuelve una de estas opciones --> 00 01 10 11 (0,1,2 o 3 en A)
+
+    ld hl, #posiciones_spawn_enemigos
+
+    comprueba_posicion:
+    or a
+    cp #0
+    jr z, posicion_conseguida
+        ;; Tenemos que actualizar HL
+        inc hl
+        inc hl
+        dec a
+        jr comprueba_posicion
+    posicion_conseguida:
+
+    ;; Cargamos la posicion en A,B 
+    ld (registro_hl), hl
+    ld ix, (registro_hl)
+    ld a, 0(ix)
+    ld b, 1(ix)
+
+    ld de, #zombie
+    call entity_set4creation ;; necesita en DE el template de entidad a crear, en A la X y en B la Y
+    
     pop iy
     pop ix
 ret
@@ -62,8 +90,8 @@ sys_collision_update_one_entity:
     ld  a, e_x(iy)      ;; a = obs_X
     add e_w(iy)         ;; a = obs_X + obs_W
     sub e_x(ix)         ;; a = obs_X + obs_W - player_x
-    jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
     jp m, no_collision  ;; salto si es menor que cero
+    jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
 
 
     ;; if (obsY + obsH <= PlayerY) --> no collision
@@ -71,8 +99,8 @@ sys_collision_update_one_entity:
     ld a, e_y(iy)
     add e_h(iy)
     sub e_y(ix)
-    jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
     jp m, no_collision  ;; salto si es menor que cero
+    jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
 
 
     ; if (playerX + playerW <= obs_x) --> no collision
@@ -80,8 +108,8 @@ sys_collision_update_one_entity:
     ld a, e_x(ix)           ; a = playerX
     add a, e_w(ix)          ; a = playerX +  playeW
     sub e_x(iy)
-    jr z, no_collision
     jp m, no_collision
+    jr z, no_collision
 
 
     ; if (playerY + playerH <= obs_y) --> no collision
@@ -89,8 +117,8 @@ sys_collision_update_one_entity:
     ld a, e_y(ix)
     add a, e_h(ix)
     sub e_y(iy)
-    jr z, no_collision
     jp m, no_collision
+    jr z, no_collision
 
 
     ;; Si IX == IY no hago nada

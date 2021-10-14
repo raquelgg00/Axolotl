@@ -1,3 +1,3 @@
 .globl sys_collision_update
-
 .globl cpct_drawSolidBox_asm
+.globl cpct_getRandom_mxor_u8_asm
