@@ -6,21 +6,25 @@
 
 move_right:
     ld e_vx(ix), #1
+    ld e_last_dir(ix), #1 ;; Cuando mire hacia la derecha, la ultima direccion sera 1
     call animations_move_right
 ret 
 
 move_left:
     ld e_vx(ix), #-1
+    ld e_last_dir(ix), #3 ;; Cuando mire hacia la izquierda, la ultima direccion sera 3
     call animations_move_left
 ret 
 
 move_up:
     ld e_vy(ix), #-4
+    ld e_last_dir(ix), #0 ;; Cuando mire hacia arriba, la ultima direccion sera 0
     call animations_move_up
 ret 
 
 move_down:
     ld e_vy(ix), #4
+    ld e_last_dir(ix), #2 ;; Cuando mire hacia abajo, la ultima direccion sera 2
     call animations_move_down
 ret
 

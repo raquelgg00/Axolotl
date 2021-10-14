@@ -9,6 +9,7 @@
 .include "cpctelera.h.s"
 
 player_shot:       .db 0x00
+registro_aux_ix: .db 0x0000
     
 ;; ===============================
 ;; CREA UNA ENTIDAD CON UN TEMPLATE
@@ -41,12 +42,19 @@ ret
 ;; ===================
 game_player_shot:
 
-    ld a, #player_shot
+    ld a, (player_shot)
     cp #0
     jp nz, disparo_lanzado
         ;; Si no se ha disparado, es decir, player_shot = 0
+        add #1
+        ld (player_shot), a
         ld de, #shot1
         call game_create_template
+        ;ld (registro_aux_ix), hl
+        ;ld ix, (registro_aux_ix)
+        ;ld iy, #entity_vector
+        ;ld b, e_x(iy)
+        ;ld e_x(ix), b
     disparo_lanzado:
 ret 
 
