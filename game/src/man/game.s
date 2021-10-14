@@ -34,6 +34,10 @@ game_init:
     ld de, #zombie
     call game_create_template
 
+    ;;Crear el arcoiris
+    ld de, #arcoiris
+    call game_create_template
+
     call render_tilemap
 ret 
 

@@ -67,14 +67,23 @@ ret
 ;ret
 
 
+;; Colision Player arcoiris
+player_arcoiris:
+    ld de, #0xC000
+    ld a, #0x00
+    ld c, e_w(iy)
+    ld b, e_h(iy)
+    call cpct_drawSolidBox_asm
+ret
+
 
 ;; Tabla de colisiones
 colisiones:
     .db e_type_zombie, e_type_player 
         .dw enemy_player
 
-    ;.db e_type_bala, e_type_player 
-    ;    .dw bala_player
+    .db e_type_player, e_type_arcoiris
+        .dw player_arcoiris
 
     .dw 0
 
