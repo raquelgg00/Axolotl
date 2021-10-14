@@ -2,6 +2,8 @@
 .include "man/entity.h.s"
 
 .globl _main_palette
+.globl _tiles_0
+.globl _tilemap_01
 
 ;; ===============================
 ;; INICIALIZA LA PALETA
@@ -24,6 +26,19 @@ render_init:
     ld h, #20     ;; color del fondo
     call cpct_setPALColour_asm
 
+ret
+
+render_tilemap:
+    ld b, #25
+    ld c, #20
+    ;ld bc, #0x1932
+    ld de, #0d0040
+    ld hl, #_tiles_0
+    call cpct_etm_setDrawTilemap4x8_ag_asm
+
+    ld hl, #0xC000
+    ld de, #_tilemap_01
+    call cpct_etm_drawTilemap4x8_ag_asm
 ret
 
 ;; ===============================

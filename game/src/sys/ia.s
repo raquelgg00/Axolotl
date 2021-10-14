@@ -36,8 +36,9 @@ ia_seguimiento_player:
     ;; COMPROBAMOS LA X
     ld a, e_x(ix) ;; A = Enemigo_X
     sub a, e_x(iy) ;; a = enemy_x - player_x
-    jp z, misma_posicion_x
+    
     jr c, enemigo_derecha_player ;; Si la resta es negativa, -->  player_X  > enemigo_X
+    jr z, misma_posicion_x
         ld e_vx(ix), #-1         ;; Por tanto, hay que mover el enemigo hacia la izq
         jr check_y               ;; Pasamos a comprobar la y
 
@@ -52,14 +53,15 @@ ia_seguimiento_player:
     check_y:
     ld a, e_y(ix)  ;; A = Enemy_Y
     sub a, e_y(iy) ;; A = Enemy_Y - Player_Y
-    jp z, misma_posicion_y
+    
     jr c, enemigo_arriba_player ;; Si hay carry (EnemyY - PlayerY < 0 --> Hay carry)
-        ; no hay carry --> EnemyY > Player_Y --> Enemigo Abajo
-        ld e_vy(ix), #-2        ;; ENEMIGO se mueve hacia ARRIBA
+    jr z, misma_posicion_y
+        ; no hay carry y no es cero --> EnemyY > Player_Y --> Enemigo Abajo
+        ld e_vy(ix), #-4        ;; ENEMIGO se mueve hacia ARRIBA
         ret                 
 
     enemigo_arriba_player:      ;; Si es positiva, la x del enemigo esta mas a la derecha que la del player
-    ld e_vy(ix), #2             ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
+    ld e_vy(ix), #4             ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
     ret
 
     misma_posicion_y:

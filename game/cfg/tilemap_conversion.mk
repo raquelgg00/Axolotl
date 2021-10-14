@@ -38,6 +38,10 @@
 # Conversion 
 #$(eval $(call TMX2DATA, CONVERT, tmxfile, array )) 
 
+$(eval $(call TMX2DATA, SET_OUTPUTS     , hs s       ))
+$(eval $(call TMX2DATA, SET_FOLDER      , src/tilemaps/  ))
+$(eval $(call TMX2DATA, CONVERT, assets/mazmorra.tmx, tilemap_01 )) 
+
 
 ##
 ## OLD MACROS (For compatibility)

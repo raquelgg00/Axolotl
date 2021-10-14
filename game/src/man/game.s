@@ -8,9 +8,11 @@
 .include "sys/collision.h.s"
 .include "cpctelera.h.s"
 
-player_shot:       .db 0x00
+player_shot:     .db 0x00
 registro_aux_ix: .db 0x0000
-    
+
+;llamada_ia:  .db 0x02
+
 ;; ===============================
 ;; CREA UNA ENTIDAD CON UN TEMPLATE
 ;; Input: DE --> template que queremos
@@ -34,6 +36,11 @@ game_init:
     ld de, #zombie
     call game_create_template
 
+    ;;Crear el arcoiris
+    ld de, #arcoiris
+    call game_create_template
+
+    call render_tilemap
 ret 
 
 ;; ===================
@@ -49,12 +56,9 @@ game_player_shot:
         add #1
         ld (player_shot), a
         ld de, #shot1
-        call game_create_template
-        ;ld (registro_aux_ix), hl
-        ;ld ix, (registro_aux_ix)
-        ;ld iy, #entity_vector
-        ;ld b, e_x(iy)
-        ;ld e_x(ix), b
+        ld a, #20
+        ld b, #20
+        call entity_set4creation
     disparo_lanzado:
 ret 
 
@@ -68,7 +72,16 @@ game_play:
         
         cpctm_setBorder_asm HW_BRIGHT_RED ; PINTAMOS BORDE DE ROJO
 
-        call ia_update
+
+        ; POR SI HAY QUE LLAMAR A LA IA MENOS VECES (pero tiembla un poco los zombies)
+        ;ld a, (llamada_ia)
+        ;cp #0
+        ;jr nz, no_IA
+            call ia_update
+        ;    ld a, #0x02
+        ;no_IA:
+        ;dec a
+        ;ld (llamada_ia), a
 
         cpctm_setBorder_asm HW_BRIGHT_YELLOW ; PINTAMOS BORDE DE AMARILLO
 

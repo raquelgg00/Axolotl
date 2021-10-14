@@ -5,3 +5,6 @@
 .globl cpct_drawSprite_asm
 .globl cpct_setPalette_asm
 .globl cpct_setPALColour_asm
+.globl cpct_etm_setDrawTilemap4x8_ag_asm
+.globl cpct_etm_drawTilemap4x8_ag_asm
+.globl render_tilemap
