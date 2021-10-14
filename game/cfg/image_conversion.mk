@@ -51,6 +51,9 @@ $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), main_palette ))
 $(eval $(call IMG2SP, CONVERT         , assets/player1.png  , 10, 20, spr_player1))
 $(eval $(call IMG2SP, CONVERT         , assets/zombie.png  , 10, 20, spr_zombie))
 
+$(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
+$(eval $(call IMG2SP, CONVERT         , assets/tile.png  , 8, 8, tiles))
+
 ##
 ## OLD MACROS (For compatibility)
 ##
