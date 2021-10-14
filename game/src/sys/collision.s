@@ -61,7 +61,7 @@ sys_collision_update_one_entity:
     ;; if (obs_x + obs_w - player_x <= 0
     ld  a, e_x(iy)      ;; a = obs_X
     add e_w(iy)         ;; a = obs_X + obs_W
-    sub (hl)            ;; a = a - (hl) 
+    sub e_x(ix)         ;; a = obs_X + obs_W - player_x
     jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
     jp m, no_collision  ;; salto si es menor que cero
 

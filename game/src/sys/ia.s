@@ -34,31 +34,29 @@ ia_seguimiento_player:
     ld iy, #entity_vector ;; Cargamos los datos del jugador en iy
 
     ;; COMPROBAMOS LA X
-    ld a, e_x(ix) ;; Cargamos en a la x del enemigo
-    ld b, e_x(iy) ;; Cargamos en b la x del player
-    cp b
+    ld a, e_x(ix) ;; A = Enemigo_X
+    sub a, e_x(iy) ;; a = enemy_x - player_x
     jp z, misma_posicion_x
-    jp m, enemigo_derecha_player ;; Si la resta es negativa, quiere decir que la x del player es mayor que la del enemigo
-        ld e_vx(ix), #-1         ;; Por tanto, hay que mover el enemigo hacia la derecha aumentando posiciones
-        jp check_y               ;; Pasamos a comprobar la y
+    jr c, enemigo_derecha_player ;; Si la resta es negativa, -->  player_X  > enemigo_X
+        ld e_vx(ix), #-1         ;; Por tanto, hay que mover el enemigo hacia la izq
+        jr check_y               ;; Pasamos a comprobar la y
 
     enemigo_derecha_player:      ;; Si es positiva, la x del enemigo esta mas a la derecha que la del player
-    ld e_vx(ix), #1              ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
-    jp check_y
+    ld e_vx(ix), #1              ;; Por tanto, hay que mover el enemigo hacia la drcha
+    jr check_y
 
     misma_posicion_x:
     ld e_vx(ix), #0
     
     ;; COMPROBAMOS LA Y
     check_y:
-    ld a, e_y(ix) ;; Cargamos en a la y del enemigo
-    ld b, e_y(iy) ;; Cargamos en b la y del player
-    cp b          ;; a - b = EnemigoY - PlayerY
-    ;sbc a, b
+    ld a, e_y(ix)  ;; A = Enemy_Y
+    sub a, e_y(iy) ;; A = Enemy_Y - Player_Y
     jp z, misma_posicion_y
-    jp m, enemigo_arriba_player ;; Si la resta es negativa, quiere decir que la x del player es mayor que la del enemigo
-        ld e_vy(ix), #-2        ;; Por tanto, hay que mover el enemigo hacia la derecha aumentando posiciones
-        ret                     ;; Pasamos a comprobar la y
+    jr c, enemigo_arriba_player ;; Si hay carry (EnemyY - PlayerY < 0 --> Hay carry)
+        ; no hay carry --> EnemyY > Player_Y --> Enemigo Abajo
+        ld e_vy(ix), #-2        ;; ENEMIGO se mueve hacia ARRIBA
+        ret                 
 
     enemigo_arriba_player:      ;; Si es positiva, la x del enemigo esta mas a la derecha que la del player
     ld e_vy(ix), #2             ;; Por tanto, hay que mover el enemigo hacia la izquierda restando posiciones
