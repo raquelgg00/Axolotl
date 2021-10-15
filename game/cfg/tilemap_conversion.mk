@@ -41,7 +41,6 @@
 $(eval $(call TMX2DATA, SET_OUTPUTS     , hs s       ))
 $(eval $(call TMX2DATA, SET_FOLDER      , src/tilemaps/  ))
 $(eval $(call TMX2DATA, CONVERT, assets/mazmorra.tmx, tilemapM ))
-#$(eval $(call TMX2DATA, CONVERT, assets/mazmorra4x8.tmx, tilemapM ))
 
 
 ##

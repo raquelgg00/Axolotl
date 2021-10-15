@@ -39,8 +39,6 @@ game_init:
     ;;Crear el arcoiris
     ld de, #arcoiris
     call game_create_template
-
-    call render_tilemap
 ret 
 
 ;; ===================
@@ -103,7 +101,7 @@ game_play:
 
         call entity_update ;; borramos entidades
 
-        cpctm_setBorder_asm HW_WHITE     ; PINTAMOS BORDE DE GRIS
+        cpctm_setBorder_asm HW_BLACK     ; PINTAMOS BORDE DE GRIS
 
         call cpct_waitVSYNC_asm
 
@@ -124,6 +122,3 @@ main_espera:
       dec e
     jp nz, main_espera
 ret
-
-
-;; man_game_create_template_entity (rutina para pasar la template y que cree la entidad)

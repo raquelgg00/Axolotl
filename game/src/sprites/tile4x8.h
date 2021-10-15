@@ -111,5 +111,59 @@ extern const u8 tiles_34[4 * 8];
 #define TILES_35_W 4
 #define TILES_35_H 8
 extern const u8 tiles_35[4 * 8];
+#define TILES_36_W 4
+#define TILES_36_H 8
+extern const u8 tiles_36[4 * 8];
+#define TILES_37_W 4
+#define TILES_37_H 8
+extern const u8 tiles_37[4 * 8];
+#define TILES_38_W 4
+#define TILES_38_H 8
+extern const u8 tiles_38[4 * 8];
+#define TILES_39_W 4
+#define TILES_39_H 8
+extern const u8 tiles_39[4 * 8];
+#define TILES_40_W 4
+#define TILES_40_H 8
+extern const u8 tiles_40[4 * 8];
+#define TILES_41_W 4
+#define TILES_41_H 8
+extern const u8 tiles_41[4 * 8];
+#define TILES_42_W 4
+#define TILES_42_H 8
+extern const u8 tiles_42[4 * 8];
+#define TILES_43_W 4
+#define TILES_43_H 8
+extern const u8 tiles_43[4 * 8];
+#define TILES_44_W 4
+#define TILES_44_H 8
+extern const u8 tiles_44[4 * 8];
+#define TILES_45_W 4
+#define TILES_45_H 8
+extern const u8 tiles_45[4 * 8];
+#define TILES_46_W 4
+#define TILES_46_H 8
+extern const u8 tiles_46[4 * 8];
+#define TILES_47_W 4
+#define TILES_47_H 8
+extern const u8 tiles_47[4 * 8];
+#define TILES_48_W 4
+#define TILES_48_H 8
+extern const u8 tiles_48[4 * 8];
+#define TILES_49_W 4
+#define TILES_49_H 8
+extern const u8 tiles_49[4 * 8];
+#define TILES_50_W 4
+#define TILES_50_H 8
+extern const u8 tiles_50[4 * 8];
+#define TILES_51_W 4
+#define TILES_51_H 8
+extern const u8 tiles_51[4 * 8];
+#define TILES_52_W 4
+#define TILES_52_H 8
+extern const u8 tiles_52[4 * 8];
+#define TILES_53_W 4
+#define TILES_53_H 8
+extern const u8 tiles_53[4 * 8];
 
 #endif

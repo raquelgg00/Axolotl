@@ -21,7 +21,7 @@ arcoiris_tmp_collider = #0x00
 ;; Ojo   ->  las posiciones iniciales de Y deben ser multiplos de 4
 player_tmp:
     ;;                       Tipo               cmps        x       y     vx     vy   width  height  sprite                 ia                  anim       count        collides           last_dir
-    DefineEntity player1, e_type_player  player_tmp_cmps  #0x27, #0x28, #0x00, #0x00, #0x05, #0x14, #_spr_player1_00,   #0x0000,         #player1_stop_down, #0x0C,  player_tmp_collider,      #0x00 
+    DefineEntity player1, e_type_player  player_tmp_cmps  #0x27, #0x28, #0x00, #0x00, #0x06, #0x1C, #_spr_player1_00,   #0x0000,         #player1_stop_down, #0x0C,  player_tmp_collider,      #0x00 
 
 zombie_tmp:
     DefineEntity zombie, e_type_zombie    zombie_tmp_cmps #0x39, #0x20, #0x00, #0x00, #0x05, #0x14, #_spr_zombie_00, #ia_seguimiento_player,    #0x0000,     #0x00,  zombie_tmp_collider,      #0x00

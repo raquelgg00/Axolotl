@@ -26,6 +26,7 @@ render_init:
     ld h, #20     ;; color del fondo
     call cpct_setPALColour_asm
 
+    call render_tilemap
 ret
 
 render_tilemap:
@@ -47,20 +48,32 @@ ret
 ;; Input: IX --> Pointers to the entity
 ;; ===============================
 render_draw_one:
-
+    ;;si la entidad esta muerta pinto un cubo encima
     ld    de, #0xC000      ;; Starting adrees of screen
     ld    c, e_x(ix)       ;; C = entity_X
     ld    b, e_y(ix)       ;; B = entity_Y
     call  cpct_getScreenPtr_asm ;; returns the position in hl
+    ex de, hl
 
-    ex de, hl            ;; DrawSolidSprite needs the position in DE
-    ld l, e_spriteL(ix)
-    ld h, e_spriteH(ix)
+    ld a, e_tipo(ix)
+    cp #e_type_dead
+    jp z, noPinto
+        
+        ;ex de, hl            ;; DrawSolidSprite needs the position in DE
+        ld l, e_spriteL(ix)
+        ld h, e_spriteH(ix)
 
-    ld b,  e_h(ix)       ;; Height
-    ld c,  e_w(ix)       ;; Width
-    call cpct_drawSprite_asm
+        ld b,  e_h(ix)       ;; Height
+        ld c,  e_w(ix)       ;; Width
+        call cpct_drawSprite_asm
+        
+        ret
 
+    noPinto:
+        ld a, #0xF0
+        ld b,  e_h(ix)       ;; Height
+        ld c,  #0x05       ;; Width
+        call cpct_drawSolidBox_asm
 ret
 
 
