@@ -1,18 +1,18 @@
 ;;
-;; File assets/mazmorra.tmx converted to csv using cpct_tmx2data [Fri Oct 15 11:51:59 2021]
+;; File assets/mazmorra.tmx converted to csv using cpct_tmx2data [Fri Oct 15 12:46:30 2021]
 ;;   * Visible Layers:  1
-;;   * Layer Width:     40
+;;   * Layer Width:     20
 ;;   * Layer Height:    25
 ;;   * Bits per tile:   8
-;;   * Layer Bytes:     1000 (40 x 25 items, 8 bits per item)
-;;   * Total Bytes:     1000 (1000 x 1, bytes per layer times layers)
+;;   * Layer Bytes:     500 (20 x 25 items, 8 bits per item)
+;;   * Total Bytes:     500 (500 x 1, bytes per layer times layers)
 ;;
 ;;#### Width and height constants ####
-_tilemap_01_W = 40
-_tilemap_01_H = 25
+_tilemapM_W = 20
+_tilemapM_H = 25
 
 ;;#### Converted layer tilemaps ####
 ;;   Visible layers: 1
 ;;
-.globl _tilemap_01
-_tilemap_01_SIZE = 1000
+.globl _tilemapM
+_tilemapM_SIZE = 500

@@ -1,9 +1,9 @@
 .include "render.h.s"
+.include "tilemaps/mazmorra.h.s"
 .include "man/entity.h.s"
 
 .globl _main_palette
 .globl _tiles_00
-.globl _tilemap_01
 
 ;; ===============================
 ;; INICIALIZA LA PALETA
@@ -29,15 +29,15 @@ render_init:
 ret
 
 render_tilemap:
-    ld b, #25
-    ld c, #20
-    ;ld bc, #0x1932
-    ld de, #0d0040
+    ld b, #_tilemapM_H ;;height en tiles de la ventana
+    ld c, #_tilemapM_W ;;width en tiles de la ventana
+
+    ld de, #_tilemapM_W ;; width en tiles de todo el tilemap
     ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ld hl, #0xC000
-    ld de, #_tilemap_01
+    ld de, #_tilemapM
     call cpct_etm_drawTilemap4x8_ag_asm
 ret
 

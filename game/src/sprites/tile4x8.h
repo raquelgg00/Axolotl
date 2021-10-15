@@ -1,6 +1,6 @@
 // Data created with Img2CPC - (c) Retroworks - 2007-2017
-#ifndef _ASSETS_TILE_H_
-#define _ASSETS_TILE_H_
+#ifndef _ASSETS_TILE4X8_H_
+#define _ASSETS_TILE4X8_H_
 
 #include <types.h>
 #define TILES_00_W 4

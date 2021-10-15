@@ -53,7 +53,8 @@ $(eval $(call IMG2SP, CONVERT         , assets/zombie.png  , 10, 20, spr_zombie)
 $(eval $(call IMG2SP, CONVERT         , assets/escudero.png  , 10, 20, spr_escudero))
 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles            ))
-$(eval $(call IMG2SP, CONVERT         , assets/tile.png  , 8, 8, tiles))
+#$(eval $(call IMG2SP, CONVERT         , assets/tile.png  , 8, 8, tiles))
+$(eval $(call IMG2SP, CONVERT         , assets/tile4x8.png  , 8, 8, tiles))
 
 ##
 ## OLD MACROS (For compatibility)
