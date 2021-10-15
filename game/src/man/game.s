@@ -77,7 +77,7 @@ game_play:
         ;ld a, (llamada_ia)
         ;cp #0
         ;jr nz, no_IA
-            call ia_update
+           call ia_update
         ;    ld a, #0x02
         ;no_IA:
         ;dec a
