@@ -72,7 +72,7 @@ render_draw_one:
     noPinto:
         ld a, #0xF0
         ld b,  e_h(ix)       ;; Height
-        ld c,  #0x05       ;; Width
+        ld c,  e_w(ix)       ;; Width
         call cpct_drawSolidBox_asm
 ret
 
