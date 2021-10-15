@@ -127,12 +127,12 @@ physics_update_one:
 
     ;; X - PARTE IZQUIERDA 
     ld a, e_x(ix)
-    cp #0
+    cp #6
     jr nz, actualizaXizq
         ;; Estoy en X = 0
         ld a, e_vx(ix)      ;; a = vx
         cp #0               
-        jp m, no_actualizaX ;; if (vx < 0)  no_actualizaX
+        jp m, comprobamos_tipo_bala_en_el_borde ;; if (vx < 0)  no_actualizaX
        
     ;; X = 0 y VX positiva
     actualizaXizq:
@@ -140,7 +140,7 @@ physics_update_one:
 
 
     ;; X - PARTE DERECHA
-    ld a, #0x50         ; A = X_derecha
+    ld a, #0x50-#6      ; A = X_derecha
     ld c, e_w(ix)
     sub a, c
     ld b, a             ; B = X_derecha - Player_Width
@@ -151,7 +151,7 @@ physics_update_one:
         ;; Estoy en X = bordeDrcha
         ld a, e_vx(ix)      ;; a = vx
         cp #0               
-        jp p, no_actualizaX ;; if (vx > 0)  no_actualizaX
+        jp p, comprobamos_tipo_bala_en_el_borde ;; if (vx > 0)  no_actualizaX
 
         actualizaXdrcha:
     ;;  x = x + vx
@@ -162,23 +162,22 @@ physics_update_one:
     no_actualizaX:
 
     ;;; ---------------------
-
     ;; Y - PARTE ARRIBA 
     ld a, e_y(ix)
-    cp #0
+    cp #32
 
     jr nz, actualizaYarriba
         ;; Estoy en Y = 0
         ld a, e_vy(ix)      ;; a = vy
         cp #0               
-        jp m, no_actualizaY ;; if (vy < 0)  no_actualizaX
+        jp m, comprobamos_tipo_bala_en_el_borde_Y ;; if (vy < 0)  no_actualizaX
        
     ;; X = 0 y VX positiva
     actualizaYarriba:
 
 
     ;; Y - PARTE ABAJO
-    ld a, #0xC8         ; A = Y_ABAJO
+    ld a, #0xC8-#24     ; A = Y_ABAJO
     ld c, e_h(ix)       ; C = Player_height
     sub a, c            ; A = y_abajo - playerHeigjt
     ld b, a
@@ -189,7 +188,7 @@ physics_update_one:
         ;; Estoy en X = bordeDrcha
         ld a, e_vy(ix)      ;; a = vx
         cp #0               
-        jp p, no_actualizaY ;; if (vx > 0)  no_actualizaX
+        jp p, comprobamos_tipo_bala_en_el_borde_Y ;; if (vx > 0)  no_actualizaX
 
         actualizaYabajo:
     ;;  y = y + vy
@@ -199,6 +198,34 @@ physics_update_one:
 
     no_actualizaY:
 
+ret
+
+; Si una bala llega al borde, se elimina
+comprobamos_tipo_bala_en_el_borde:
+    ld a, e_tipo(ix)
+    cp #e_type_shot
+    jp nz, no_actualizaX
+
+    ;; Es una bala en el borde, luego la borramos
+    call entity_set4destruction
+
+    ld a, (player_shot)
+    dec a
+    ld (player_shot), a
+ret
+
+comprobamos_tipo_bala_en_el_borde_Y:
+    ld a, e_tipo(ix)
+    cp #e_type_shot
+    jp nz, no_actualizaY
+
+    ;; Es una bala en el borde, luego la borramos
+    call entity_set4destruction
+
+    ld a, (player_shot)
+    dec a
+    ld (player_shot), a
+    
 ret
 
 ;; ===============================

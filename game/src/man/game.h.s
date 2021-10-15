@@ -4,3 +4,4 @@
 .globl cpct_waitVSYNC_asm
 .globl game_player_shot
 .globl game_create_template
+.globl player_shot
