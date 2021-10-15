@@ -69,20 +69,24 @@ ret
 
 ;; Colision Player arcoiris
 player_arcoiris:
-    ld de, #0xC000
-    ld a, #0x00
-    ld c, e_w(iy)
-    ld b, e_h(iy)
-    call cpct_drawSolidBox_asm
+
+    push ix
+
+    ld (registro_aux), iy
+    ld ix, (registro_aux)
+    call entity_set4destruction
+
+    pop ix
+    
 ret
 
 
 ;; Tabla de colisiones
 colisiones:
-    .db e_type_zombie, e_type_player 
+    .db e_type_zombie, e_type_player   ;; OJO IX=player IY=Zombie (player siempre va antes en el bucle de la funcion ForAllPairs) 
         .dw enemy_player
 
-    .db e_type_player, e_type_arcoiris
+    .db e_type_arcoiris, e_type_player ;; OJO IX=player IY=Arcoiris (player siempre va antes en el bucle de la funcion ForAllPairs) 
         .dw player_arcoiris
 
     .dw 0
@@ -100,7 +104,7 @@ sys_collision_update_one_entity:
     add e_w(iy)         ;; a = obs_X + obs_W
     sub e_x(ix)         ;; a = obs_X + obs_W - player_x
     jp m, no_collision  ;; salto si es menor que cero
-    jr z, no_collision  ;; salto si es = 0 ( no modifica flags )
+    jp z, no_collision  ;; salto si es = 0 ( no modifica flags )
 
 
     ;; if (obsY + obsH <= PlayerY) --> no collision
@@ -140,12 +144,12 @@ sys_collision_update_one_entity:
 
 
     ;; Collision
-    ld hl, #colisiones-2
+    ld hl, #colisiones-4
 
     recorrer_tabla:
 
-        ;; HL += 2 (direccion de memoria)
-        ld bc, #2
+        ;; HL += 4 (direccion de memoria)
+        ld bc, #4
         add hl, bc
 
         ; registro_hl => HL (direccion de memoria de TablaColisiones[i])
@@ -174,11 +178,14 @@ sys_collision_update_one_entity:
         cp d                ;; \
         jr nz, recorrer_tabla
 
+
         ;; Mis 2 entidades de IX e IY coinciden con la fila de la tabla de colisiones
         ;; Ahora ejecutamos la funcion asociada
         ;; El puntero HL debe apuntar a la direccion de memoria siguiente (+= 2)
-        inc hl
-        inc hl
+        ;inc hl
+        ;inc hl
+        ld bc, #2
+        add hl, bc
 
         ;; HL => PtrFuncion, pero queremos tener en HL SOLO la funcion (no el puntero). Entonces...
         push ix
@@ -196,13 +203,8 @@ sys_collision_update_one_entity:
     ret
 
     no_collision:
-        ld de, #0xC000
-        ld a, #0x00
-        ld c, #4
-        ld b, #16
-        call cpct_drawSolidBox_asm
-  
-
+     
+    
     funcion_colision_ya_ejecutada:
 ret
 
