@@ -2,7 +2,7 @@
 .include "man/entity.h.s"
 
 .globl _main_palette
-.globl _tiles_0
+.globl _tiles_00
 .globl _tilemap_01
 
 ;; ===============================
@@ -33,7 +33,7 @@ render_tilemap:
     ld c, #20
     ;ld bc, #0x1932
     ld de, #0d0040
-    ld hl, #_tiles_0
+    ld hl, #_tiles_00
     call cpct_etm_setDrawTilemap4x8_ag_asm
 
     ld hl, #0xC000
