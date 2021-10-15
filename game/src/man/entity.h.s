@@ -7,6 +7,7 @@
 .globl entity_vector
 .globl entity_set4destruction
 .globl entity_set4creation
+.globl entity_register
 
 
 ; Constantes
@@ -33,7 +34,8 @@ e_last_dir        = 16
 e_type_invalid  = 0x00 
 e_type_player   = 0x01
 e_type_zombie   = 0x02
-e_type_shot     = 0x03
+e_type_shot     = 0x04
+e_type_arcoiris = 0x08
 e_type_dead     = 0x80
 e_type_default  = 0x7F
 
@@ -46,7 +48,7 @@ e_cmp_animated = 0x10
 e_cmp_collider = 0x20
 
 k_max_num_entities = 20
-k_size_entity      = 17
+k_size_entity      = 18
 
 
 
